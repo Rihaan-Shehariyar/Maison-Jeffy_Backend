@@ -41,7 +41,7 @@ func (u *SignupUseCase)Signup(name,email,password string)error{
  Email: email,
  Password: string(hashed),
  Role: "user",
- IsActive: false,
+ IsVerified: false,
 }
 
 return u.userRepo.Create(&user)

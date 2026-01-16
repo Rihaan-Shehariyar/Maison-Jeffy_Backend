@@ -34,6 +34,7 @@ func (h *AuthHandler)Signup(c *gin.Context){
  if err!=nil{
    if err ==usecase.ErrEmailAlreadyExists{
   response.Conflict(c,"email already exist")
+  return
 }
 
  response.InternalError(c)
