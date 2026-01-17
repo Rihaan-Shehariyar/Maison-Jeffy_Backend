@@ -42,15 +42,17 @@ if err:=db.AutoMigrate(
 // USE_CASE
  signup_uc := usecase.NewSignupCase(user_repo)
  otp_uc := usecase.NewOTPUsecase(otp_repo,user_repo)
+ login_uc:=usecase.NewLoginUseCase(user_repo)
  
 // HANDLERS
  auth_handler:= handler.NewAuthHandler(signup_uc)
  otp_handler := handler.NewOTPHandler(otp_uc)
+ login_handler := handler.NewLoginHandler(login_uc)
 
  r:=gin.Default()
 
  api:=r.Group("/auth")
- routes.RegisterRoutes(api,auth_handler)
+ routes.RegisterRoutes(api,auth_handler,login_handler)
  routes.OTPRoutes(api,otp_handler)
 
  log.Println("server running on :8080")

@@ -66,6 +66,6 @@ func (r *userRepositoryPg)Create(user *entity.User)(error){
 
 func (r *userRepositoryPg)MarkVerfied(email string)error{
    return r.db.Model(&entity.User{}).
-           Where("emai = ?",email).
+           Where("email = ?",email).
           Update("isVerified",true).Error
 }
