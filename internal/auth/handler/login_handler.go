@@ -28,11 +28,17 @@ func (h *LoginHandler)Login(c *gin.Context){
     response.BadRequest(c,"Invalid request")
     return
 }
- if err:=h.usecase.Login(req.Email,req.Password);err!=nil{
+  access,refresh,err:=h.usecase.Login(req.Email,req.Password);
+ if err!=nil{
    response.BadRequest(c,err.Error())
    return
 }
 
- c.JSON(200,gin.H{"message":"Login Successfull"})
+  
+ c.JSON(200,gin.H{
+    "message":"Login Successfull",
+    "access_token":access,
+    "refresh_token" : refresh,
+})
 
 }
