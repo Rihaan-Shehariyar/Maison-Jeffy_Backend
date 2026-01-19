@@ -69,3 +69,13 @@ func (r *userRepositoryPg)MarkVerfied(email string)error{
            Where("email = ?",email).
           Update("isVerified",true).Error
 }
+
+
+func (r userRepositoryPg)UpdatePassword(email,password string)error{
+  
+ return r.db.Model(&entity.User{}).
+         Where("email = ? ",email).
+         Update("password",password).Error
+
+}
+

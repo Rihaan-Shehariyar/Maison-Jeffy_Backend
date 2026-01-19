@@ -12,7 +12,7 @@ func SendOTPEmail(to string, otp string) error {
     password:=os.Getenv("SMTP_PASSWORD")
 
   msg:=fmt.Sprintf(
-   "Subject: Email Verification OTP \n\n Your OTP is : %s\n Valid For % minutes",otp ,
+   "Subject: Email Verification OTP \n\n Your OTP is : %s\n Valid For 5 minutes",otp ,
 )
 
  auth :=smtp.PlainAuth("",from,password,"smtp.gmail.com")
