@@ -93,7 +93,7 @@ protected.Use(middleware.JWTAuth())
 
   // Product routes
 
- product_routes.ProductRoutes(r,product_handler)
+ product_routes.ProductRoutes(r,&product_handler)
 
 
  log.Println("server running on :8080")
