@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AdminRoutes(r *gin.Engine,h *admin_handler.UserAdminHandler){
+func AdminRoutes(r *gin.Engine,h *admin_handler.UserAdminHandler,p *admin_handler.ProductAdminHandler){
 
  admin := r.Group("/admin")
  r.Use(middleware.JWTAuth(),middleware.AdminOnly())
@@ -15,4 +15,9 @@ func AdminRoutes(r *gin.Engine,h *admin_handler.UserAdminHandler){
  users := admin.Group("/users")
  users.PUT("/:id",h.UpdateUser)
  users.PUT("/:id",h.BlockUser)
+
+ products:=admin.Group("/prooducts")
+ products.PUT("/:id",p.UpdateProduct)
+ products.DELETE("/:id",p.DeleteProduct)
+ 
 }

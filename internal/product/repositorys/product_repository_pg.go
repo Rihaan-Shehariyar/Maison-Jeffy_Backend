@@ -32,3 +32,11 @@ func (r *productRepositoryPg) Create(product *entitys.Product) error {
 	return r.db.Create(product).Error
 }
 
+func (r *productRepositoryPg) Update(prduct *entitys.Product) error{
+   return r.db.Save(prduct).Error
+}
+func (r *productRepositoryPg) Delete(id uint)error{
+   return r.db.Delete(&entitys.Product{},id).Error
+}
+
+

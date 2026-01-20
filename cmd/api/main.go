@@ -84,7 +84,10 @@ profile_handler := profile_handler.NewProfileGHandler(profile_uc)
 //admin
 
 admin_uc := admin_usecase.NewUserAdminUscase(user_repo)
-admin_handler := admin_handler.NewUserAdminHandler(admin_uc)
+adminHandler := admin_handler.NewUserAdminHandler(admin_uc)
+
+admin_product_uc := admin_usecase.NewProductAdminUsecase(productRepo)
+admin_product_handler := admin_handler.NewProductAdminHandler(admin_product_uc)
 
 
 // Router
@@ -117,7 +120,7 @@ profile_routes.UserRoutes(r,profile_handler)
 
 // admin_routes
 
-admin_routes.AdminRoutes(r,admin_handler)
+admin_routes.AdminRoutes(r,adminHandler,admin_product_handler)
 
  log.Println("server running on :8080")
  if err:=r.Run(":8080");err!=nil{
