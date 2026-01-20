@@ -9,5 +9,7 @@ type User struct {
 	Password   string    `gorm:"not null"`
 	Role       string
 	IsVerified bool      `gorm:"default:false"`
+    IsBlocked bool       `gorm:"default:false"`
 	CreatedAt  time.Time
 }
+ 

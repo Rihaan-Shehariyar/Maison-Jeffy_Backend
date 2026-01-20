@@ -48,6 +48,25 @@ func(r *userRepositoryPg)FindByEmail(email string)(*entity.User,error){
 }
 
 
+func(r* userRepositoryPg)FindByID(userId uint)(*entity.User,error){
+
+  var u entity.User
+
+ if err:=r.db.First(&u,userId).Error;err!=nil{
+    return nil,err
+}
+
+ return &entity.User{
+   ID: u.ID,
+   Name: u.Name,
+   Email: u.Email,
+   Role: u.Role,
+   IsVerified: u.IsVerified,
+},nil
+
+}
+
+
 func (r *userRepositoryPg)Create(user *entity.User)(error){
 
   u:=entity.User{
@@ -77,5 +96,25 @@ func (r userRepositoryPg)UpdatePassword(email,password string)error{
          Where("email = ? ",email).
          Update("password",password).Error
 
+}
+
+
+func (r *userRepositoryPg)UpdateName(id uint,name string)error{
+
+ return r.db.Model(&entity.User{}).
+             Where("id = ?",id).
+             Update("name",name).Error
+  
+}
+
+func (r *userRepositoryPg)UpdateUser(user *entity.User)error{
+   return r.db.Save(user).Error
+}
+
+
+func (r *userRepositoryPg)BlockUser(id uint)error{
+ return r.db.Model(&entity.User{}).
+             Where("id = ?",id).
+             Update("IsBlocked",true).Error 
 }
 

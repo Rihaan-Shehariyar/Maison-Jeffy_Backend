@@ -14,8 +14,8 @@ type ProductHandler struct {
 	usecase *usecases.ProductUseCase
 }
 
-func NewProductHandler(u *usecases.ProductUseCase)ProductHandler{
-   return ProductHandler{u}
+func NewProductHandler(u *usecases.ProductUseCase) *ProductHandler{
+   return &ProductHandler{u}
 }
 
 

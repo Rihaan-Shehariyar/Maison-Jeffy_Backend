@@ -1,6 +1,9 @@
 package main
 
 import (
+	admin_handler "backend/internal/admin/handler"
+	admin_routes "backend/internal/admin/routes"
+	admin_usecase "backend/internal/admin/usecase"
 	"backend/internal/auth/entity"
 	"backend/internal/auth/handler"
 	"backend/internal/auth/repository"
@@ -12,6 +15,9 @@ import (
 	"backend/internal/product/repositorys"
 	product_routes "backend/internal/product/routes"
 	"backend/internal/product/usecase"
+	profile_handler "backend/internal/user/handler"
+	profile_routes "backend/internal/user/routes"
+	profile_usecase "backend/internal/user/usecase"
 	"backend/pkg/database"
 	"log"
 	"os"
@@ -70,6 +76,16 @@ productRepo := repositorys.NewProductRepositoryPg(db)
 product_uc := usecases.NewProductRepositoryUseCase(productRepo)
 product_handler:=handlers.NewProductHandler(product_uc)
 
+// User_Profiles
+
+profile_uc := profile_usecase.NewProfileUseCase(user_repo)
+profile_handler := profile_handler.NewProfileGHandler(profile_uc)
+
+//admin
+
+admin_uc := admin_usecase.NewUserAdminUscase(user_repo)
+admin_handler := admin_handler.NewUserAdminHandler(admin_uc)
+
 
 // Router
 
@@ -91,10 +107,17 @@ protected.Use(middleware.JWTAuth())
 })
  })
 
-  // Product routes
+  // Product_routes
 
- product_routes.ProductRoutes(r,&product_handler)
+ product_routes.ProductRoutes(r,product_handler)
 
+// Profile_routes
+
+profile_routes.UserRoutes(r,profile_handler)
+
+// admin_routes
+
+admin_routes.AdminRoutes(r,admin_handler)
 
  log.Println("server running on :8080")
  if err:=r.Run(":8080");err!=nil{
