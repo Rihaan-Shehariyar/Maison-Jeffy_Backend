@@ -37,7 +37,7 @@ func (h *AuthHandler)Signup(c *gin.Context){
   return
 }
 
- response.InternalError(c)
+ response.InternalError(c,"Server Error")
  return
 }
 

@@ -10,7 +10,7 @@ import (
 type RefreshHandler struct {
 	usecase *usecase.RefreshUseCase
 }
-func NewRefreshUseCase(u *usecase.RefreshUseCase)*RefreshHandler{
+func NewRefreshHandler(u *usecase.RefreshUseCase)*RefreshHandler{
   return &RefreshHandler{usecase: u}
 }
 

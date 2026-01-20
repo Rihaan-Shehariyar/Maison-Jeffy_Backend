@@ -28,8 +28,10 @@ func Conflict(c *gin.Context,msg string){
 })
 }
 
-func InternalError(c *gin.Context){
-  c.JSON(500,gin.H{"error":"Internal Server Error"})
+func InternalError(c *gin.Context,msg string){
+  c.JSON(500,gin.H{"error":"Internal Server Error",
+                 "status" : msg, 
+})
 }
 
 func Unauthorized(c *gin.Context,msg string){
