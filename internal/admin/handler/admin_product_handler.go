@@ -4,7 +4,11 @@ import (
 	admin_usecase "backend/internal/admin/usecase"
 	entitys "backend/internal/product/entity"
 	"backend/pkg/response"
+	"fmt"
+	"os"
+	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,19 +25,62 @@ func NewProductAdminHandler(u *admin_usecase.ProductAdminUsecase)*ProductAdminHa
 
 func(h *ProductAdminHandler)CreateProduct(c *gin.Context){
 
- var product entitys.Product
+ name:=c.PostForm("name")
+ priceStr := c.PostForm("price")
+ stockStr := c.PostForm("stock") 
+ description := c.PostForm("description")
 
- if err:=c.ShouldBindJSON(&product);err!=nil{
-    response.BadRequest(c,"Invalid Json")
+
+
+  if name == "" || priceStr == "" || stockStr == ""{
+   response.BadRequest(c,"Name,Price and Stock is required ")
     return
 }
 
- if err:= h.usecase.CreateProduct(&product);err!=nil{
-  response.InternalError(c,"Failed To Create Product")
+ price,err:=strconv.ParseFloat(priceStr,64)
+ if err!=nil{
+   response.BadRequest(c,"Invalid Price")
+   return
+}
+ 
+ stock,err := strconv.Atoi(stockStr) 
+  if err!=nil || stock <0{
+    response.BadRequest(c,"Invalid Stock")
+    return
+}
+
+ file,err:= c.FormFile("image")
+ if err!=nil{
+  response.BadRequest(c,"Image is required")
   return
 }
 
-c.JSON(200,product)
+uploadDir := "uploads/products"
+_ = os.Mkdir(uploadDir,os.ModePerm)
+
+
+fileName := fmt.Sprintf("%d_%s",time.Now().Unix(),file.Filename)
+imagePath := filepath.Join(uploadDir,fileName)
+
+if err:= c.SaveUploadedFile(file,imagePath);err!=nil{
+  response.InternalError(c,"Failed to Save Image")
+  return
+}
+ 
+product := &entitys.Product{
+  Name: name,
+  Description: description,
+  Price: price,
+  Stock: stock,
+  ImageURL: imagePath,
+}
+
+ if err:=h.usecase.CreateProduct(product);err!=nil{
+   response.InternalError(c,"Failed To Create Products")
+    return
+}
+
+ c.JSON(200,product)
 
 }
 

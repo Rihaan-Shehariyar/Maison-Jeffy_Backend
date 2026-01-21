@@ -18,7 +18,7 @@ func (u *RefreshUseCase) Refresh(refreshToken string) (string, error) {
 
 	token, err := jwt.Parse(
     refreshToken,func(t *jwt.Token) (interface{}, error) {
-      return []byte(os.Getenv("JWT_REFRESH_TOKEN")),nil
+      return []byte(os.Getenv("JWT_REFRESH_SECRET")),nil
 },
 )
 
@@ -27,10 +27,10 @@ func (u *RefreshUseCase) Refresh(refreshToken string) (string, error) {
 }
 
  claims:=token.Claims.(jwt.MapClaims)
- userId :=uint(claims["sub"].(float64))
+ userId :=(claims["user_id"].(float64))
  role := claims["role"].(string)
  email := claims["email"].(string)
- return jwtutils.GenerateAccessToken(userId,role,email)
+ return jwtutils.GenerateAccessToken(uint(userId),role,email)
 
  
 

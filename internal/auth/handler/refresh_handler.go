@@ -27,6 +27,7 @@ func(h *RefreshHandler)Refresh(c *gin.Context){
  access_token,err:=h.usecase.Refresh(req.RefreshToken) 
  if err!=nil{
     response.Unauthorized(c,err.Error())
+    return
 }
 
  c.JSON(200,gin.H{"access_token" : access_token})
