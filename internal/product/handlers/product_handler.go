@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"backend/internal/product/entity"
 	"backend/internal/product/usecase"
 	"backend/pkg/response"
 	"net/http"
@@ -49,23 +48,3 @@ func(h *ProductHandler)GetProductById(c *gin.Context){
 
 }
 
-
-// Create Products By admin
-
-func(h *ProductHandler)CreateProduct(c *gin.Context){
-
- var product entitys.Product
-
- if err:=c.ShouldBindJSON(&product);err!=nil{
-    response.BadRequest(c,"Invalid Json")
-    return
-}
-
- if err:= h.usecase.CreateProduct(&product);err!=nil{
-  response.InternalError(c,"Failed To Create Product")
-  return
-}
-
-c.JSON(200,product)
-
-}

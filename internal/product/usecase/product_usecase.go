@@ -21,7 +21,5 @@ func (u *ProductUseCase)GetProductByID(id uint)(*entitys.Product,error){
    return u.repo.FindByID(id)
 }
 
-func (u *ProductUseCase)CreateProduct(product *entitys.Product)error{
-   return u.repo.Create(product)
-}
+
 

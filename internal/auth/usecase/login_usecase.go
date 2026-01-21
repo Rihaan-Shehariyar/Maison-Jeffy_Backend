@@ -39,12 +39,12 @@ err!=nil{
    return "","",errors.New("Please Verify Your email Before Login")
 }
 
- access_token,err:=jwtutils.GenerateAccessToken(user.ID,user.Email)
+ access_token,err:=jwtutils.GenerateAccessToken(user.ID,user.Email,user.Role)
  if err!=nil{
     return "","",err
 }
 
-refresh_token,err := jwtutils.GenerateRefreshToken(user.Email,user.ID)
+refresh_token,err := jwtutils.GenerateRefreshToken(user.ID,user.Email,user.Role)
  if err!=nil{
     return "","",err
 }

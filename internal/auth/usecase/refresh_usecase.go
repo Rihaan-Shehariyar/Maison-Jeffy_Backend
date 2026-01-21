@@ -28,7 +28,9 @@ func (u *RefreshUseCase) Refresh(refreshToken string) (string, error) {
 
  claims:=token.Claims.(jwt.MapClaims)
  userId :=uint(claims["sub"].(float64))
- return jwtutils.GenerateAccessToken(userId,"")
+ role := claims["role"].(string)
+ email := claims["email"].(string)
+ return jwtutils.GenerateAccessToken(userId,role,email)
 
  
 

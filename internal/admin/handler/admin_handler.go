@@ -23,7 +23,7 @@ func(h *UserAdminHandler)UpdateUser(c *gin.Context){
  var req struct{
    Name string `json:"name"`
    Email string `json:"email" binding:"required,email"`
-   Role string `json:"role" binding:"required,email"`
+   Role string `json:"role" binding:"required"`
 }
 
  if err:=c.ShouldBindJSON(&req);err!=nil{

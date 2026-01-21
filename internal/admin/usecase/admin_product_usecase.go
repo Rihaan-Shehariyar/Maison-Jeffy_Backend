@@ -1,6 +1,7 @@
 package admin_usecase
 
 import (
+	entitys "backend/internal/product/entity"
 	"backend/internal/product/repositorys"
 	"errors"
 )
@@ -11,6 +12,10 @@ type ProductAdminUsecase struct {
 
 func NewProductAdminUsecase(repo repositorys.ProductRepository)*ProductAdminUsecase{
   return &ProductAdminUsecase{repo}
+}
+
+func (u *ProductAdminUsecase)CreateProduct(product *entitys.Product)error{
+   return u.repo.Create(product)
 }
 
 func (u *ProductAdminUsecase) UpdateProduct(id uint,name,description string,stock int,price float64)error{

@@ -3,7 +3,6 @@ package middleware
 import (
 	jwtutils "backend/pkg/jwt_utils"
 	"backend/pkg/response"
-	"log"
 	"os"
 	"strings"
 
@@ -17,8 +16,6 @@ func JWTAuth() gin.HandlerFunc{
    auth:=ctx.GetHeader("Authorization")
   if auth =="" {
 	response.Unauthorized(ctx,"Token Missing")
-	log.Println("JWT MIDDLEWARE HIT")
-		log.Println("AUTH HEADER VALUE =", auth)
     ctx.Abort()
      return 
   }
@@ -38,7 +35,7 @@ func JWTAuth() gin.HandlerFunc{
 
  ctx.Set("user_id",claims.UserID)
  ctx.Set("email",claims.Email)
-
+ ctx.Set("role",claims.Role)
 
  ctx.Next()
 

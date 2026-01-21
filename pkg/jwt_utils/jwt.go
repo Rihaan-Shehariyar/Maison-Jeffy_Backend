@@ -11,11 +11,12 @@ import (
 type Claims struct {
 	UserID uint   `json:"user_id"`
 	Email  string `json:"email"`
+  Role string `json:"role"`
 	jwt.RegisteredClaims
 }
 
 
-func GenerateAccessToken(userId uint,email string)(string,error){
+func GenerateAccessToken(userId uint,email string,role string)(string,error){
 
   secret:=os.Getenv("JWT_SECRET")
  if secret ==""{
@@ -25,6 +26,7 @@ func GenerateAccessToken(userId uint,email string)(string,error){
  claims := Claims{
   UserID: userId,
   Email: email,
+  Role: role,
  RegisteredClaims: jwt.RegisteredClaims{
    IssuedAt: jwt.NewNumericDate(time.Now()),
    ExpiresAt: jwt.NewNumericDate(time.Now().Add(15*time.Minute)),
@@ -37,7 +39,7 @@ func GenerateAccessToken(userId uint,email string)(string,error){
 } 
 
 
-func GenerateRefreshToken(email string,userID uint)(string,error){
+func GenerateRefreshToken(userId uint,email string,role string)(string,error){
  
  secret := os.Getenv("JWT_REFRESH_SECRET")
  if secret ==""{
@@ -45,8 +47,9 @@ func GenerateRefreshToken(email string,userID uint)(string,error){
 }
 
  claims:=Claims{
-  UserID: userID,
+  UserID: userId,
   Email: email,
+  Role: role,
   RegisteredClaims:jwt.RegisteredClaims{
     IssuedAt: jwt.NewNumericDate(time.Now()),
     ExpiresAt: jwt.NewNumericDate(time.Now().Add(7*24*time.Hour)),

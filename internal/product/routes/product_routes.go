@@ -12,7 +12,6 @@ func ProductRoutes(r *gin.Engine,h *handlers.ProductHandler){
   r.GET("/products/:id",h.GetProductById)
 
  admin:=r.Group("/products")
- admin.Use(middleware.JWTAuth())
- admin.POST("",h.CreateProduct)
+ admin.Use(middleware.JWTAuth(),middleware.AdminOnly())
 
 }

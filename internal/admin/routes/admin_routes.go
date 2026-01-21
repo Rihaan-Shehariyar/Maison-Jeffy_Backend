@@ -10,13 +10,14 @@ import (
 func AdminRoutes(r *gin.Engine,h *admin_handler.UserAdminHandler,p *admin_handler.ProductAdminHandler){
 
  admin := r.Group("/admin")
- r.Use(middleware.JWTAuth(),middleware.AdminOnly())
+ admin.Use(middleware.JWTAuth(),middleware.AdminOnly())
 
  users := admin.Group("/users")
  users.PUT("/:id",h.UpdateUser)
- users.PUT("/:id",h.BlockUser)
+ users.PUT("/:id/block",h.BlockUser)
 
- products:=admin.Group("/prooducts")
+ products:=admin.Group("/products")
+ products.POST("",p.CreateProduct)
  products.PUT("/:id",p.UpdateProduct)
  products.DELETE("/:id",p.DeleteProduct)
  

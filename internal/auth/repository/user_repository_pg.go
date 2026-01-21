@@ -108,7 +108,16 @@ func (r *userRepositoryPg)UpdateName(id uint,name string)error{
 }
 
 func (r *userRepositoryPg)UpdateUser(user *entity.User)error{
-   return r.db.Save(user).Error
+   updates := map[string]interface{}{
+   "name" : user.Name,
+   "email" : user.Email,
+    "role" : user.Role,
+}
+  
+ return r.db.Model(&entity.User{}).
+             Where("id = ?",user.ID).
+             Updates(updates).Error
+
 }
 
 

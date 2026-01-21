@@ -2,6 +2,7 @@ package admin_handler
 
 import (
 	admin_usecase "backend/internal/admin/usecase"
+	entitys "backend/internal/product/entity"
 	"backend/pkg/response"
 	"strconv"
 
@@ -14,6 +15,26 @@ type ProductAdminHandler struct {
 
 func NewProductAdminHandler(u *admin_usecase.ProductAdminUsecase)*ProductAdminHandler{
     return &ProductAdminHandler{u}
+}
+
+// Create Products By admin
+
+func(h *ProductAdminHandler)CreateProduct(c *gin.Context){
+
+ var product entitys.Product
+
+ if err:=c.ShouldBindJSON(&product);err!=nil{
+    response.BadRequest(c,"Invalid Json")
+    return
+}
+
+ if err:= h.usecase.CreateProduct(&product);err!=nil{
+  response.InternalError(c,"Failed To Create Product")
+  return
+}
+
+c.JSON(200,product)
+
 }
 
 func (h *ProductAdminHandler)UpdateProduct(c *gin.Context){
