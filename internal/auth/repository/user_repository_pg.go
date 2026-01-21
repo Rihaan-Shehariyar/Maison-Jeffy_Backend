@@ -127,3 +127,5 @@ func (r *userRepositoryPg)BlockUser(id uint)error{
              Update("IsBlocked",true).Error 
 }
 
+
+

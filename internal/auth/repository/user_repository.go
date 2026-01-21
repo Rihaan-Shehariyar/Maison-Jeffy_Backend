@@ -14,6 +14,7 @@ type UserRepository interface {
     UpdateName(id uint,name string)error
     UpdateUser(user *entity.User)error
     BlockUser(id uint)error
+    // LogOut(token string)error
 
 }
 
