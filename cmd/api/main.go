@@ -19,8 +19,13 @@ import (
 	profile_routes "backend/internal/user/routes"
 	profile_usecase "backend/internal/user/usecase"
 	"backend/pkg/database"
+	"context"
 	"log"
+	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -122,9 +127,38 @@ profile_routes.UserRoutes(r,profile_handler)
 
 admin_routes.AdminRoutes(r,adminHandler,admin_product_handler)
 
- log.Println("server running on :8080")
- if err:=r.Run(":8080");err!=nil{
-  log.Fatal(err)
+
+// HTTP Server
+
+
+ server := &http.Server{
+ Addr: ":8080",
+ Handler: r,
 }
 
+ go func ()  {
+	log.Println("Server running on : 8080")
+    if err:=server.ListenAndServe();err !=nil && err!= http.ErrServerClosed{
+      log.Fatalf("Listen error :  %v\n",err)
+}
+ }()
+
+ quit:= make(chan os.Signal, 1)
+ signal.Notify(quit,syscall.SIGINT,syscall.SIGTERM)
+
+ <- quit
+
+ log.Println("ShutDown Signal Recieved...")
+
+ ctx,cancel := context.WithTimeout(context.Background(),10*time.Second)
+ defer cancel()
+
+ if err:= server.Shutdown(ctx);err!=nil{
+  log.Println("Server Forced To ShutDown",err)
+}
+
+ sqlDB,_:=db.DB()
+ sqlDB.Close()
+ log.Println("Server Exited Cleanly")
+ 
 }
