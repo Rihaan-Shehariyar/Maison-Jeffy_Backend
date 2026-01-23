@@ -14,7 +14,7 @@ import (
 	"backend/internal/product/handlers"
 	"backend/internal/product/repositorys"
 	product_routes "backend/internal/product/routes"
-	"backend/internal/product/usecase"
+	usecases "backend/internal/product/usecase"
 	profile_handler "backend/internal/user/handler"
 	profile_routes "backend/internal/user/routes"
 	profile_usecase "backend/internal/user/usecase"
@@ -33,132 +33,125 @@ import (
 
 func main() {
 
-	if err:= godotenv.Load();err!=nil{
-    log.Printf("no .env file found")
- }
+	if err := godotenv.Load(); err != nil {
+		log.Printf("no .env file found")
+	}
 
- dsn:= os.Getenv("POSTGRES_DSN")
- db,err := database.Connect(dsn)
- if err!=nil{
-    log.Fatal("Failed to Connect DB : ",err)
-}
+	dsn := os.Getenv("POSTGRES_DSN")
+	db, err := database.Connect(dsn)
+	if err != nil {
+		log.Fatal("Failed to Connect DB : ", err)
+	}
 
+	if err := db.AutoMigrate(
+		&entity.User{},
+		&entity.OTP{},
+		&entitys.Product{},
+	); err != nil {
+		log.Fatal("AutoMigrate failed:", err)
+	}
 
-if err:=db.AutoMigrate(
-&entity.User{},
-&entity.OTP{},
-&entitys.Product{},
-);err!=nil{
-  log.Fatal("AutoMigrate failed:", err)
- }
+	               // Auth
 
- 
-// Repository
- user_repo := repository.NewUserRepositoryPg(db)
- otp_repo := repository.NewOTPRepository(db)
+	// Repository
+	user_repo := repository.NewUserRepositoryPg(db)
+	otp_repo := repository.NewOTPRepository(db)
 
-// USE_CASE
- signup_uc := usecase.NewSignupCase(user_repo)
- otp_uc := usecase.NewOTPUsecase(otp_repo,user_repo)
- login_uc:=usecase.NewLoginUseCase(user_repo)
- refresh_uc :=usecase.NewRefreshUseCase()
- forgot_uc :=usecase.NewForgetPasswordUseCase(user_repo,otp_repo)
- reset_uc := usecase.NewResetPasswordUsecase(user_repo,otp_repo)
- 
-// HANDLERS
- auth_handler:= handler.NewAuthHandler(signup_uc)
- otp_handler := handler.NewOTPHandler(otp_uc)
- login_handler := handler.NewLoginHandler(login_uc)
- refresh_handler := handler.NewRefreshHandler(refresh_uc)
- forgot_handler := handler.NewForgetPasswordHandler(forgot_uc)
- reset_handler := handler.NewResetPasswordHandler(reset_uc)
+	// USE_CASE
+	signup_uc := usecase.NewSignupCase(user_repo)
+	otp_uc := usecase.NewOTPUsecase(otp_repo, user_repo)
+	login_uc := usecase.NewLoginUseCase(user_repo)
+	refresh_uc := usecase.NewRefreshUseCase()
+	forgot_uc := usecase.NewForgetPasswordUseCase(user_repo, otp_repo)
+	reset_uc := usecase.NewResetPasswordUsecase(user_repo, otp_repo)
 
+	// HANDLERS
+	auth_handler := handler.NewAuthHandler(signup_uc)
+	otp_handler := handler.NewOTPHandler(otp_uc)
+	login_handler := handler.NewLoginHandler(login_uc)
+	refresh_handler := handler.NewRefreshHandler(refresh_uc)
+	forgot_handler := handler.NewForgetPasswordHandler(forgot_uc)
+	reset_handler := handler.NewResetPasswordHandler(reset_uc)
 
+	// Products
 
-// Products
+	productRepo := repositorys.NewProductRepositoryPg(db)
+	product_uc := usecases.NewProductRepositoryUseCase(productRepo)
+	product_handler := handlers.NewProductHandler(product_uc)
 
-productRepo := repositorys.NewProductRepositoryPg(db)
-product_uc := usecases.NewProductRepositoryUseCase(productRepo)
-product_handler:=handlers.NewProductHandler(product_uc)
+	// User_Profiles
 
-// User_Profiles
+	profile_uc := profile_usecase.NewProfileUseCase(user_repo)
+	profile_handler := profile_handler.NewProfileGHandler(profile_uc)
 
-profile_uc := profile_usecase.NewProfileUseCase(user_repo)
-profile_handler := profile_handler.NewProfileGHandler(profile_uc)
+	//admin
 
-//admin
+	admin_uc := admin_usecase.NewUserAdminUscase(user_repo)
+	adminHandler := admin_handler.NewUserAdminHandler(admin_uc)
 
-admin_uc := admin_usecase.NewUserAdminUscase(user_repo)
-adminHandler := admin_handler.NewUserAdminHandler(admin_uc)
+	admin_product_uc := admin_usecase.NewProductAdminUsecase(productRepo)
+	admin_product_handler := admin_handler.NewProductAdminHandler(admin_product_uc)
 
-admin_product_uc := admin_usecase.NewProductAdminUsecase(productRepo)
-admin_product_handler := admin_handler.NewProductAdminHandler(admin_product_uc)
+	// Router
 
+	r := gin.Default()
 
-// Router
+	api := r.Group("/auth")
+	routes.RegisterRoutes(api, auth_handler, login_handler, refresh_handler, forgot_handler, reset_handler)
+	routes.OTPRoutes(api, otp_handler)
 
- r:=gin.Default()
+	protected := api.Group("")
+	protected.Use(middleware.JWTAuth())
 
- api:=r.Group("/auth")
- routes.RegisterRoutes(api,auth_handler,login_handler,refresh_handler,forgot_handler,reset_handler)
- routes.OTPRoutes(api,otp_handler)
+	protected.GET("/profile", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"user_id": ctx.GetUint("user_id"),
+			"email":   ctx.GetString("email"),
+		})
+	})
 
+	// Product_routes
 
-protected := api.Group("")
-protected.Use(middleware.JWTAuth())
+	product_routes.ProductRoutes(r, product_handler)
 
- 
- protected.GET("/profile",func(ctx *gin.Context) {
-   ctx.JSON(200,gin.H{
-    "user_id" : ctx.GetUint("user_id"),
-     "email" : ctx.GetString("email"),
-})
- })
+	// Profile_routes
 
-  // Product_routes
+	profile_routes.UserRoutes(r, profile_handler)
 
- product_routes.ProductRoutes(r,product_handler)
+	// admin_routes
 
-// Profile_routes
+	admin_routes.AdminRoutes(r, adminHandler, admin_product_handler)
 
-profile_routes.UserRoutes(r,profile_handler)
+	// HTTP Server
 
-// admin_routes
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: r,
+	}
 
-admin_routes.AdminRoutes(r,adminHandler,admin_product_handler)
+	go func() {
+		log.Println("Server running on : 8080")
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Listen error :  %v\n", err)
+		}
+	}()
 
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-// HTTP Server
+	<-quit
 
+	log.Println("ShutDown Signal Recieved...")
 
- server := &http.Server{
- Addr: ":8080",
- Handler: r,
-}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
- go func ()  {
-	log.Println("Server running on : 8080")
-    if err:=server.ListenAndServe();err !=nil && err!= http.ErrServerClosed{
-      log.Fatalf("Listen error :  %v\n",err)
-}
- }()
+	if err := server.Shutdown(ctx); err != nil {
+		log.Println("Server Forced To ShutDown", err)
+	}
 
- quit:= make(chan os.Signal, 1)
- signal.Notify(quit,syscall.SIGINT,syscall.SIGTERM)
+	sqlDB, _ := db.DB()
+	sqlDB.Close()
+	log.Println("Server Exited Cleanly")
 
- <- quit
-
- log.Println("ShutDown Signal Recieved...")
-
- ctx,cancel := context.WithTimeout(context.Background(),10*time.Second)
- defer cancel()
-
- if err:= server.Shutdown(ctx);err!=nil{
-  log.Println("Server Forced To ShutDown",err)
-}
-
- sqlDB,_:=db.DB()
- sqlDB.Close()
- log.Println("Server Exited Cleanly")
- 
 }
