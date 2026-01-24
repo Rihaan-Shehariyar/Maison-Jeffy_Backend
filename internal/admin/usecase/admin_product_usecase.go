@@ -36,6 +36,7 @@ func (u *ProductAdminUsecase) UpdateProduct(id uint,name,description string,stoc
 
  if stock >= 0{
     product.Stock = stock
+
  }
   
  return  u.repo.Update(product)
