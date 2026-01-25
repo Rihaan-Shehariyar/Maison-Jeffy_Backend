@@ -30,14 +30,15 @@ func (u *UserAdminUsecase) UpdateUser(id uint, name string, email string, role s
 
 	if email != "" {
 
-   if email != user.Email{
-      existing,_ := u.userRepo.FindByEmail(email)
-      if existing != nil && existing.ID != user.ID{
-        return errors.New("email already in exist")
-}
-   
-   user.Email = email
-}
+		if email != user.Email {
+			existing, _ := u.userRepo.FindByEmail(email)
+			if existing != nil && existing.ID != user.ID {
+
+				return errors.New("email already in exist")
+			}
+
+			user.Email = email
+		}
 
 	}
 
