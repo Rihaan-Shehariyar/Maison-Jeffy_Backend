@@ -1,7 +1,7 @@
 package repositorys
 
 import (
-	"backend/internal/product/entity"
+	entitys "backend/internal/product/entity"
 
 	"gorm.io/gorm"
 )
@@ -17,7 +17,7 @@ func NewProductRepositoryPg(db *gorm.DB) ProductRepository {
 func (r *productRepositoryPg) FindAll() ([]entitys.Product, error) {
 	var products []entitys.Product
 	return products, r.db.Find(&products).Error
- 
+
 }
 
 func (r *productRepositoryPg) FindByID(id uint) (*entitys.Product, error) {
@@ -32,11 +32,9 @@ func (r *productRepositoryPg) Create(product *entitys.Product) error {
 	return r.db.Create(product).Error
 }
 
-func (r *productRepositoryPg) Update(prduct *entitys.Product) error{
-   return r.db.Save(prduct).Error
+func (r *productRepositoryPg) Update(prduct *entitys.Product) error {
+	return r.db.Save(prduct).Error
 }
-func (r *productRepositoryPg) Delete(id uint)error{
-   return r.db.Delete(&entitys.Product{},id).Error
+func (r *productRepositoryPg) Delete(id uint) error {
+	return r.db.Delete(&entitys.Product{}, id).Error
 }
-
-
