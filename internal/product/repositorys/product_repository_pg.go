@@ -34,6 +34,7 @@ func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort s
 		query = query.Where(
 			"name ILIKE ? OR description ILIKE ?",
 			like, like)
+
 	}
 
 	switch sort {
