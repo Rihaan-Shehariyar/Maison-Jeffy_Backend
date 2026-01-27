@@ -29,6 +29,7 @@ func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort s
 	}
 
 	if search != "" {
+
 		like := "%" + search + "%"
 		query = query.Where(
 			"name ILIKE ? OR description ILIKE ?",
