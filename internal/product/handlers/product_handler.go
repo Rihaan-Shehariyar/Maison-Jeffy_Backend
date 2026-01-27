@@ -21,7 +21,26 @@ func NewProductHandler(u *usecases.ProductUseCase) *ProductHandler {
 
 func (h *ProductHandler) GetAllProducts(c *gin.Context) {
 
-	products, err := h.usecase.GetAllProducts()
+	category := c.Query("category")
+	search := c.Query("search")
+	sort := c.Query("sort")
+
+	var maxPrice *float64
+	priceStr := c.Query("price")
+	if priceStr != "" {
+		price, err := strconv.ParseFloat(priceStr, 64)
+		if err != nil {
+			response.BadRequest(c, "Invalid Price Value")
+			return
+		}
+
+		maxPrice = &price
+
+	}
+
+	products, err := h.usecase.GetAllProducts(category,
+		maxPrice, sort, search,
+	)
 	if err != nil {
 		response.InternalError(c, "Failed To Fetch Products")
 		return

@@ -14,9 +14,39 @@ func NewProductRepositoryPg(db *gorm.DB) ProductRepository {
 	return &productRepositoryPg{db: db}
 }
 
-func (r *productRepositoryPg) FindAll() ([]entitys.Product, error) {
+func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort string, search string) ([]entitys.Product, error) {
 	var products []entitys.Product
-	return products, r.db.Find(&products).Error
+
+	query := r.db.Model(&entitys.Product{})
+
+	if category != "" {
+		query = query.Where("category = ? ", category)
+	}
+
+	if maxPrice != nil {
+		query = query.Where("price <= ?", maxPrice)
+	}
+
+	if search != "" {
+		like := "%" + search + "%"
+		query = query.Where(
+			"name ILIKE ? OR description ILIKE ?",
+			like, like)
+	}
+
+	switch sort {
+	case "price_asc":
+		query = query.Order("price ASC")
+	case "price_desc":
+		query = query.Order("price DESC")
+	case "latest":
+		query = query.Order("created_at DESC")
+	default:
+		query = query.Order("created_at DESC")
+	}
+
+ err := query.Find(&products).Error
+ return products,err
 
 }
 
