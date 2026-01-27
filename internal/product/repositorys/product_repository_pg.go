@@ -20,7 +20,7 @@ func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort s
 	query := r.db.Model(&entitys.Product{})
 
 	if category != "" {
-		query = query.Where("category = ? ", category)
+		query = query.Where("category  ILIKE  ?", category)
 	}
 
 	if maxPrice != nil {
@@ -45,8 +45,8 @@ func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort s
 		query = query.Order("created_at DESC")
 	}
 
- err := query.Find(&products).Error
- return products,err
+	err := query.Find(&products).Error
+	return products, err
 
 }
 

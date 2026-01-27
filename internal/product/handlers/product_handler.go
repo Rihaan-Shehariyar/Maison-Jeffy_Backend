@@ -42,7 +42,7 @@ func (h *ProductHandler) GetAllProducts(c *gin.Context) {
 		maxPrice, sort, search,
 	)
 	if err != nil {
-		response.InternalError(c, "Failed To Fetch Products")
+		response.BadRequest(c, "Failed To Fetch Products")
 		return
 	}
 
