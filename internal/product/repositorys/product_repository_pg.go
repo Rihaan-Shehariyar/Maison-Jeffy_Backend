@@ -24,6 +24,7 @@ func (r *productRepositoryPg) FindAll(category string, maxPrice *float64, sort s
 	}
 
 	if maxPrice != nil {
+
 		query = query.Where("price <= ?", maxPrice)
 	}
 
