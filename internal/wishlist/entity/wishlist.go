@@ -4,8 +4,8 @@ import "time"
 
 type Wishlist struct {
 	ID         uint `gorm:"primaryKey"`
-	UserID     uint `gorm:"not null"`
-	ProductID  uint `gorm:"uniqueIndex:idx_user_product"`
+	UserID     uint `gorm:"not null;index:idx_user_product,unique"`
+	ProductID  uint `gorm:"uniqueIndex:idx_user_product,unique"`
 	Created_at time.Time
 }
 
