@@ -18,6 +18,11 @@ import (
 	profile_handler "backend/internal/user/handler"
 	profile_routes "backend/internal/user/routes"
 	profile_usecase "backend/internal/user/usecase"
+	wishlist_entity "backend/internal/wishlist/entity"
+	wishlist_handler "backend/internal/wishlist/handler"
+	wishlist_repository "backend/internal/wishlist/repository"
+	wishlist_routes "backend/internal/wishlist/routes"
+	wishlist_usecase "backend/internal/wishlist/usecase"
 	"backend/pkg/database"
 	"context"
 	"log"
@@ -47,11 +52,12 @@ func main() {
 		&entity.User{},
 		&entity.OTP{},
 		&entitys.Product{},
+        &wishlist_entity.Wishlist{},
 	); err != nil {
 		log.Fatal("AutoMigrate failed:", err)
 	}
 
-	               // Auth
+	// Auth
 
 	// Repository
 	user_repo := repository.NewUserRepositoryPg(db)
@@ -75,8 +81,8 @@ func main() {
 
 	// Products
 
-	productRepo := repositorys.NewProductRepositoryPg(db)
-	product_uc := usecases.NewProductRepositoryUseCase(productRepo)
+	product_Repo := repositorys.NewProductRepositoryPg(db)
+	product_uc := usecases.NewProductRepositoryUseCase(product_Repo)
 	product_handler := handlers.NewProductHandler(product_uc)
 
 	// User_Profiles
@@ -89,7 +95,7 @@ func main() {
 	admin_uc := admin_usecase.NewUserAdminUscase(user_repo)
 	adminHandler := admin_handler.NewUserAdminHandler(admin_uc)
 
-	admin_product_uc := admin_usecase.NewProductAdminUsecase(productRepo)
+	admin_product_uc := admin_usecase.NewProductAdminUsecase(product_Repo)
 	admin_product_handler := admin_handler.NewProductAdminHandler(admin_product_uc)
 
 	// Router
@@ -117,6 +123,14 @@ func main() {
 	// Profile_routes
 
 	profile_routes.UserRoutes(r, profile_handler)
+
+	//wishlist
+
+	wishlist_repo := wishlist_repository.NewWishlistRepositoryPg(db)
+	wishlist_uc := wishlist_usecase.NewWishlistUsecasePg(wishlist_repo)
+	wishlist_handler := wishlist_handler.NewWishlistHandler(wishlist_uc)
+
+	wishlist_routes.WishlistRoutes(r, wishlist_handler)
 
 	// admin_routes
 
