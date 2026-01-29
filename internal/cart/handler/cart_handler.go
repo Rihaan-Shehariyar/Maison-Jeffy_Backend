@@ -110,7 +110,7 @@ func (h *CartHandler) Clear(c *gin.Context) {
 	userID := c.GetUint("user_id")
 
 	if err := h.usecase.Clear(userID); err != nil {
-		response.BadRequest(c, err.Error())
+		response.InternalError(c, err.Error())
 		return
 	}
 
