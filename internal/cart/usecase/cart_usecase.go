@@ -33,13 +33,13 @@ func (u *CartUsecase) Remove(userID, productID uint) error {
 
 }
 
-func (u *CartUsecase) UpdateQty(userID, productID, qty uint) error {
+func (u *CartUsecase) UpdateQty(userID, productID uint, qty int) error {
 
 	if qty == 0 {
 		return u.repo.Remove(userID, productID)
 	}
 
-	return u.repo.UpdateQty(userID, productID, qty)
+	return u.repo.UpdateQty(userID, productID, uint(qty))
 
 }
 

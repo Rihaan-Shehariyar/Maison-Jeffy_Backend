@@ -9,6 +9,11 @@ import (
 	"backend/internal/auth/repository"
 	"backend/internal/auth/routes"
 	"backend/internal/auth/usecase"
+	cart_entity "backend/internal/cart/entity"
+	cart_handler "backend/internal/cart/handler"
+	cart_repository "backend/internal/cart/repository"
+	cart_routes "backend/internal/cart/routes"
+	cart_usecase "backend/internal/cart/usecase"
 	"backend/internal/middleware"
 	entitys "backend/internal/product/entity"
 	"backend/internal/product/handlers"
@@ -52,7 +57,8 @@ func main() {
 		&entity.User{},
 		&entity.OTP{},
 		&entitys.Product{},
-        &wishlist_entity.Wishlist{},
+		&wishlist_entity.Wishlist{},
+		&cart_entity.Cart{},
 	); err != nil {
 		log.Fatal("AutoMigrate failed:", err)
 	}
@@ -131,6 +137,14 @@ func main() {
 	wishlist_handler := wishlist_handler.NewWishlistHandler(wishlist_uc)
 
 	wishlist_routes.WishlistRoutes(r, wishlist_handler)
+
+	// Cart
+
+	cart_repo := cart_repository.NewCartRepositoryPg(db)
+	cart_uc := cart_usecase.NewCartUsecase(cart_repo)
+	cart_handler := cart_handler.NewCartHandler(cart_uc)
+
+	cart_routes.CartRoutes(r, cart_handler)
 
 	// admin_routes
 

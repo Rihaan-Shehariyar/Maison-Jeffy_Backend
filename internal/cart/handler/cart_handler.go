@@ -20,7 +20,7 @@ func (h *CartHandler) Add(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
 
-	idParam := c.Param("product_id")
+	idParam := c.Param("productID")
 	productID, err := strconv.Atoi(idParam)
 	if err != nil {
 		response.BadRequest(c, "Invalid Product ID")
@@ -38,7 +38,7 @@ func (h *CartHandler) Remove(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
 
-	idParam := c.Param("product_id")
+	idParam := c.Param("productID")
 	productID, err := strconv.Atoi(idParam)
 	if err != nil {
 		response.BadRequest(c, "Invalid Product ID")
@@ -61,7 +61,7 @@ func (h *CartHandler) UpdateQty(c *gin.Context) {
 	}
 
 	userID := c.GetUint("user_id")
-	idParam := c.Param("product_id")
+	idParam := c.Param("productID")
 
 	productID, err := strconv.Atoi(idParam)
 
@@ -77,7 +77,7 @@ func (h *CartHandler) UpdateQty(c *gin.Context) {
 		return
 	}
 
-	if req.Quantity < 0 {
+	if req.Quantity <= 0 {
 		response.BadRequest(c, "Quantity Cannot be negative")
 		return
 	}
@@ -88,5 +88,32 @@ func (h *CartHandler) UpdateQty(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"message": "Quantity Updated"})
+
+}
+
+func (h *CartHandler) GetMyCart(c *gin.Context) {
+
+	userID := c.GetUint("user_id")
+
+	items, err := h.usecase.GetMyUser(userID)
+	if err != nil {
+		response.BadRequest(c, err.Error())
+		return
+	}
+
+	c.JSON(200, items)
+
+}
+
+func (h *CartHandler) Clear(c *gin.Context) {
+
+	userID := c.GetUint("user_id")
+
+	if err := h.usecase.Clear(userID); err != nil {
+		response.BadRequest(c, err.Error())
+		return
+	}
+
+	c.JSON(200, gin.H{"message": "Products cleared from Cart"})
 
 }
