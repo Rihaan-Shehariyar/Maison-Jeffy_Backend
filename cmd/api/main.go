@@ -15,6 +15,11 @@ import (
 	cart_routes "backend/internal/cart/routes"
 	cart_usecase "backend/internal/cart/usecase"
 	"backend/internal/middleware"
+	order_entity "backend/internal/orders/entity"
+	order_handler "backend/internal/orders/handler"
+	order_repository "backend/internal/orders/repository"
+	order_routes "backend/internal/orders/routes"
+	order_usecase "backend/internal/orders/usecase"
 	entitys "backend/internal/product/entity"
 	"backend/internal/product/handlers"
 	"backend/internal/product/repositorys"
@@ -59,6 +64,8 @@ func main() {
 		&entitys.Product{},
 		&wishlist_entity.Wishlist{},
 		&cart_entity.Cart{},
+		&order_entity.Order{},
+		&order_entity.OrderItem{},
 	); err != nil {
 		log.Fatal("AutoMigrate failed:", err)
 	}
@@ -146,9 +153,17 @@ func main() {
 
 	cart_routes.CartRoutes(r, cart_handler)
 
+	// orders
+
+	order_repo := order_repository.NewOrderRepositoryPg(db)
+	order_uc := order_usecase.NewOrderUsecase(db, order_repo, cart_repo, product_Repo)
+	order_handler := order_handler.NewOrderHandler(*order_uc)
+
+	order_routes.OrderRoutes(r, order_handler)
+
 	// admin_routes
 
-	admin_routes.AdminRoutes(r, adminHandler, admin_product_handler)
+	admin_routes.AdminRoutes(r, adminHandler, admin_product_handler, order_handler)
 
 	// HTTP Server
 

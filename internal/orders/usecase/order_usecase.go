@@ -71,7 +71,7 @@ func (u *OrderUseCase) PlaceOrder(userID uint) error {
 			OrderItems:  orderItems,
 		}
 
-		if err := tx.Create(order).Error; err != nil {
+		if err := tx.Create(&order).Error; err != nil {
 			return err
 		}
 
@@ -85,7 +85,7 @@ func (u *OrderUseCase) PlaceOrder(userID uint) error {
 
 }
 
-func (u *OrderUseCase) GetByUser(userId uint) ([]order_entity.Order, error) {
+func (u *OrderUseCase) GetMyOrders(userId uint) ([]order_entity.Order, error) {
 
 	return u.orderRepo.GetByUser(userId)
 

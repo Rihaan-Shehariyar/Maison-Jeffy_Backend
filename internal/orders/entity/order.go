@@ -5,8 +5,9 @@ import "time"
 type Order struct {
 	ID          uint `gorm:"primaryKey"`
 	UserID      uint `gorm:"index"`
+	OrderID     uint
 	TotalAmount float64
-	status      string
+	Status      string
 	CreatedAt   time.Time
-	OrderItems  []OrderItem `gorm:"foriegnKey:OrderID"`
+	OrderItems  []OrderItem `gorm:"foreignKey:OrderID"`
 }

@@ -22,7 +22,7 @@ func (r *OrderRepositoryPg) GetByUser(userID uint) ([]order_entity.Order, error)
 
 	var orders []order_entity.Order
 
-	err := r.db.Preload("orderItems").
+	err := r.db.Preload("OrderItems").
 		Where("user_id = ?", userID).
 		Order("created_at DESC").
 		Find(&orders).Error
@@ -48,6 +48,6 @@ func (r *OrderRepositoryPg) GetByOrderId(orderID uint) (*order_entity.Order, err
 func (r *OrderRepositoryPg) UpdateStatus(orderId uint, status string) error {
 
 	return r.db.Model(&order_entity.Order{}).
-		Where("orderID = ?", orderId).
+		Where("order_id = ?", orderId).
 		Update("status", status).Error
 }
