@@ -91,7 +91,7 @@ func (u *OrderUseCase) GetByUser(userId uint) ([]order_entity.Order, error) {
 
 }
 
-func (u *OrderUseCase) GetByOrderId(orderId uint) (order_entity, error) {
+func (u *OrderUseCase) GetByOrderId(orderId uint) (*order_entity.Order, error) {
 
 	return u.orderRepo.GetByOrderId(orderId)
 }
@@ -106,4 +106,11 @@ func (u *OrderUseCase) UpdateStatus(orderId uint, status string) error {
 		"delivered": true,
 		"cancelled": true,
 	}
+
+	if !validStatus[status] {
+		return errors.New("Invalid order status")
+	}
+
+	return u.orderRepo.UpdateStatus(orderId, status)
+
 }
