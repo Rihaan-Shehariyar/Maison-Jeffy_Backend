@@ -30,7 +30,22 @@ func (u *AddressUsecase) Update(userID, addressId uint, updated *address_entity.
 	address, err := u.repo.FindByID(addressId)
 	if err != nil || userID != address.UserID {
 		return errors.New("Adress Not found")
-
 	}
 
+	address.Name = updated.Name
+	address.Area = updated.Area
+	address.City = updated.City
+	address.State = updated.State
+	address.Pincode = updated.Pincode
+
+	return u.repo.Update(address)
+
 }
+
+func (u *AddressUsecase) Delete(userID, addressID uint) error {
+	return u.repo.Delete(userID, addressID)
+}
+
+// func(u *AddressUsecase)FindByID(addressID uint)(*address_entity.Address,error){
+//   return u.repo.FindByID(addressID)
+// }

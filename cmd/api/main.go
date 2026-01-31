@@ -1,6 +1,11 @@
 package main
 
 import (
+	address_entity "backend/internal/address/entity"
+	address_handler "backend/internal/address/handler"
+	address_repository "backend/internal/address/repository"
+	address_routes "backend/internal/address/routes"
+	address_usecase "backend/internal/address/usecase"
 	admin_handler "backend/internal/admin/handler"
 	admin_routes "backend/internal/admin/routes"
 	admin_usecase "backend/internal/admin/usecase"
@@ -66,6 +71,7 @@ func main() {
 		&cart_entity.Cart{},
 		&order_entity.Order{},
 		&order_entity.OrderItem{},
+		&address_entity.Address{},
 	); err != nil {
 		log.Fatal("AutoMigrate failed:", err)
 	}
@@ -157,9 +163,17 @@ func main() {
 
 	order_repo := order_repository.NewOrderRepositoryPg(db)
 	order_uc := order_usecase.NewOrderUsecase(db, order_repo, cart_repo, product_Repo)
-	order_handler := order_handler.NewOrderHandler(*order_uc)
+	order_handler := order_handler.NewOrderHandler(order_uc)
 
 	order_routes.OrderRoutes(r, order_handler)
+
+	// address
+
+	address_repo := address_repository.NewAddressRepositoryPg(db)
+	address_uc := address_usecase.NewAddressUsecase(address_repo)
+	address_handler := address_handler.NewAddressHandler(address_uc)
+
+	address_routes.AddressRoutes(r, address_handler)
 
 	// admin_routes
 

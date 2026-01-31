@@ -36,14 +36,14 @@ func (r *AddressRepositoryPg) Update(address *address_entity.Address) error {
 func (r *AddressRepositoryPg) Delete(userID, addressId uint) error {
 
 	return r.db.Where("user_id = ? AND id = ? ", userID, addressId).
-		Delete(&address_entity.Address{}).Error
+		Delete(&address_entity.Address{}).Save(&address_entity.Address{}).Error
 }
 
-func (r *AddressRepositoryPg) FindByID(orderID uint) (*address_entity.Address, error) {
+func (r *AddressRepositoryPg) FindByID(addressID uint) (*address_entity.Address, error) {
 
 	var address address_entity.Address
 
-	if err := r.db.First(&address, orderID).Error; err != nil {
+	if err := r.db.First(&address, addressID).Error; err != nil {
 		return nil, err
 	}
 

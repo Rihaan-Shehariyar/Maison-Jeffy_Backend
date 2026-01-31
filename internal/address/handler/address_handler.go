@@ -17,32 +17,23 @@ func NewAddressHandler(usecase *address_usecase.AddressUsecase) *AddressHandler 
 	return &AddressHandler{usecase}
 }
 
-type address struct {
-	UserID  uint
-	Name    string `json:"name"`
-	Area    string `json:"area"`
-	City    string `json:"city"`
-	State   string `json:"state"`
-	Pincode string `json:"pincode"`
-}
-
 func (h *AddressHandler) Create(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
 
-	var req address
+	var address address_entity.Address
 
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBindJSON(&address); err != nil {
 		response.BadRequest(c, "Invalid Json")
 		return
 	}
 
-	if err := h.usecase.Create(userID, &req); err != nil {
+	if err := h.usecase.Create(userID, &address); err != nil {
 		response.BadRequest(c, err.Error())
 		return
 	}
 
-	c.JSON(200, req)
+	c.JSON(200, address)
 
 }
 
@@ -81,19 +72,16 @@ func (h *AddressHandler) Update(c *gin.Context) {
 
 }
 
+func (h *AddressHandler) Delete(c *gin.Context) {
 
-func (h *AddressHandler)Delete(c *gin.Context){
-    
-    userID := c.GetUint("user_id")
-    addressID,_:=strconv.Atoi(c.Param("user_id"))
+	userID := c.GetUint("user_id")
+	addressID, _ := strconv.Atoi(c.Param("user_id"))
 
- if err:=h.usecase.Delete(userID,uint(addressID));err!=nil{
- response.BadRequest(c,err.Error())
- return
+	if err := h.usecase.Delete(userID, uint(addressID)); err != nil {
+		response.BadRequest(c, err.Error())
+		return
+	}
+
+	c.JSON(200, gin.H{"message": "Address Deleted"})
+
 }
-
- c.JSON(200,gin.H{"message":"Address Deleted"})
- 
-}
-
-f

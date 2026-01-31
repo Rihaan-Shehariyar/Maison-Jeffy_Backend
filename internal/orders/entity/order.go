@@ -5,7 +5,6 @@ import "time"
 type Order struct {
 	ID          uint `gorm:"primaryKey"`
 	UserID      uint `gorm:"index"`
-	OrderID     uint
 	TotalAmount float64
 	Status      string
 	CreatedAt   time.Time

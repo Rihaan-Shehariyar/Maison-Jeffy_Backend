@@ -9,11 +9,11 @@ import (
 )
 
 type OrderHandler struct {
-	usecase order_usecase.OrderUseCase
+	usecase *order_usecase.OrderUseCase
 }
 
-func NewOrderHandler(usecase order_usecase.OrderUseCase) *OrderHandler {
-	return &OrderHandler{usecase}
+func NewOrderHandler(usecase *order_usecase.OrderUseCase) *OrderHandler {
+	return &OrderHandler{usecase:usecase}
 }
 
 func (h *OrderHandler) PlaceOrder(c *gin.Context) {

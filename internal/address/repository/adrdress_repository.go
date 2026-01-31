@@ -7,5 +7,5 @@ type AddressRepository interface {
 	GetByUser(userID uint) ([]address_entity.Address, error)
 	Update(address *address_entity.Address) error
 	Delete(userID, addressID uint) error
-	FindByID(orderID uint) (*address_entity.Address, error)
+	FindByID(addressID uint) (*address_entity.Address, error)
 }
