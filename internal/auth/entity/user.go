@@ -14,4 +14,3 @@ type User struct {
 	CreatedAt  time.Time
 
 }
-
