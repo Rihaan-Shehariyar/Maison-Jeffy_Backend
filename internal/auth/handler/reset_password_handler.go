@@ -18,7 +18,6 @@ func NewResetPasswordHandler(u *usecase.ResetPasswordUsecase) *ResetPasswordHand
 
 func (h *ResetPasswordHandler) ResetPassword(c *gin.Context){
 
-
   var req struct{
    Email string `json:"email"`
    OTP string `json:"otp"`
