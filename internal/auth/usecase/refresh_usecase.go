@@ -8,7 +8,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type RefreshUseCase struct{}
+type RefreshUseCase struct{
+}
 
 func NewRefreshUseCase() *RefreshUseCase {
 	return &RefreshUseCase{}
