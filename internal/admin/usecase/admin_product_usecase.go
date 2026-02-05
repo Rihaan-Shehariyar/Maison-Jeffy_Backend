@@ -51,5 +51,4 @@ func (u *ProductAdminUsecase) DeleteProduct(id uint) error {
 	}
 
 	return u.repo.Delete(id)
-
 }
