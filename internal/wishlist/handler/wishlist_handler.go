@@ -19,7 +19,6 @@ func NewWishlistHandler(usecase *wishlist_usecase.WishlistUsecase) *WishlistHand
 func (h *WishlistHandler) Add(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
-
 	idParam := c.Param("productID")
 
 	if idParam == "" {
