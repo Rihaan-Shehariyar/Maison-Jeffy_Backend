@@ -25,4 +25,5 @@ func AdminRoutes(r *gin.Engine, h *admin_handler.UserAdminHandler, p *admin_hand
 	order := admin.Group("/orders")
 	order.PUT("/:order_id", o.UpdateStatus)
 
+
 }
