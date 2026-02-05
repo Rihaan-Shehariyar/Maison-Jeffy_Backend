@@ -64,5 +64,4 @@ func (u *UserAdminUsecase) BlockUser(id uint) error {
 	}
 
 	return u.userRepo.BlockUser(id)
-
 }
