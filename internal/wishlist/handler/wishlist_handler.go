@@ -22,6 +22,7 @@ func (h *WishlistHandler) Add(c *gin.Context) {
 	idParam := c.Param("productID")
 
 	if idParam == "" {
+
 		response.BadRequest(c, "product is missing")
 		return
 	}
