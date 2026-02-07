@@ -17,7 +17,7 @@ function login(){
   localStorage.setItem("adminToken",data.token);
   window.location.href = "dashboard.html"
 }else{
- alert("Login Faile")
+ alert("Login Failed")
 } 
 })
 }

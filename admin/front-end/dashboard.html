@@ -2,21 +2,36 @@
 <html>
 <head>
   <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
-<h1>Dashboard</h1>
+<div class="layout">
 
-<a href="product.html">Manage Products</a>
-<button onclick="logout()">Logout</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>JeffyCart</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="products.html">Products</a>
+    <a href="users.html">Users</a>
+    <a href="orders.html">Orders</a>
+    <button onclick="logout()">Logout</button>
+  </aside>
 
-<script src="js/auth.js"></script>
-<script>
-function logout() {
-  localStorage.removeItem("adminToken");
-  window.location.href = "index.html";
-}
-</script>
+  <!-- MAIN -->
+  <main class="main">
+    <header class="header">Dashboard</header>
 
+    <section class="cards">
+      <div class="card">Total Products<br><span id="productsCount">0</span></div>
+      <div class="card">Total Users<br><span id="usersCount">0</span></div>
+      <div class="card">Total Orders<br><span id="ordersCount">0</span></div>
+    </section>
+  </main>
+
+</div>
+
+<script src="./js/auth.js"></script>
+<script src="./js/dashboard.js"></script>
 </body>
 </html>
