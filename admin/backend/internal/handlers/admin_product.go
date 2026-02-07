@@ -90,3 +90,6 @@ func DeleteProduct(c *gin.Context){
  c.JSON(200,gin.H{"message":"Product Deleted Successfully"})
 
 }
+
+
+
