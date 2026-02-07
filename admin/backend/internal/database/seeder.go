@@ -2,7 +2,7 @@ package database
 
 import "backend/admin/backend/internal/models"
 
-func seedAdmin() {
+func SeedAdmin() {
 
 	var count int64
 
@@ -12,6 +12,7 @@ func seedAdmin() {
 		DB.Create(&models.Admin{
 			Email:    "admin@gmail.com",
 			Password: "Admin@123",
+            
 		})
 	}
 

@@ -10,16 +10,15 @@ import (
 
 var DB *gorm.DB
 
-func Connect(){
+func Connect() {
 
- dsn := os.Getenv("POSTGRES_DSN")
+	dsn := os.Getenv("POSTGRES_DSN")
 
- db,err := gorm.Open(postgres.Open(dsn),&gorm.Config{})
- if err!=nil{
-  log.Fatalf("Database Connection Failed")
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Database Connection Failed")
+	}
+
+	DB = db
+
 }
-
- DB = db
- 
-}
-

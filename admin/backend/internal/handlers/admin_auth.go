@@ -42,3 +42,5 @@ if err!=nil{
 c.JSON(200,gin.H{"token":token})
 
 }
+
+
