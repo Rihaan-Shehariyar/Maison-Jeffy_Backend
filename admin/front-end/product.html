@@ -1,39 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Products</title>
-</head>
-<body>
+<main class="main">
+<header class="header">Products</header>
 
-<h2>Products</h2>
-
-<table border="1">
+<table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Price</th>
       <th>Stock</th>
+      <th>Action</th>
     </tr>
   </thead>
-  <tbody id="products"></tbody>
+  <tbody id="productTable"></tbody>
 </table>
-
-<script src="js/auth.js"></script>
-<script src="js/products.js"></script>
-
-<h3>Add Product</h3>
-
-<form id="productForm">
-  <input name="name" placeholder="Name"><br>
-  <input name="price" placeholder="Price"><br>
-  <input name="stock" placeholder="Stock"><br>
-  <input name="category" placeholder="Category"><br>
-  <textarea name="description"></textarea><br>
-  <input type="file" name="image"><br>
-  <button type="submit">Create</button>
-</form>
-
-
-</body>
-</html>
-
+</main>
