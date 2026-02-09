@@ -1,5 +1,33 @@
-<header class="header">Users</header>
-<table>
-  <tr><th>Email</th><th>Status</th><th>Action</th></tr>
-  <tr><td>test@gmail.com</td><td>Active</td><td><button>Block</button></td></tr>
-</table>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Users</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="layout">
+  <div id="sidebar"></div>
+
+  <main class="main">
+    <div class="header">Users</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="userTable"></tbody>
+    </table>
+  </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/users.js"></script>
+</body>
+</html>

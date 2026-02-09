@@ -1,5 +1,8 @@
-const token = localStorage.getItem("adminToken")
+if (!localStorage.getItem("adminToken")) {
+  window.location.href = "/index.html";
+}
 
-if(!token){
- window.location.href = "index.html"
+function logout() {
+  localStorage.removeItem("adminToken");
+  window.location.href = "/index.html";
 }

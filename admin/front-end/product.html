@@ -1,15 +1,57 @@
-<main class="main">
-<header class="header">Products</header>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Stock</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="productTable"></tbody>
-</table>
-</main>
+<div class="layout">
+  <div id="sidebar"></div>
+
+  <main class="main">
+    <div class="header">
+      Products
+      <button onclick="openModal()" style="float:right">+ Add Product</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="productTable"></tbody>
+    </table>
+  </main>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Add Product</h3>
+
+    <input id="name" placeholder="Name">
+    <input id="price" type="number" placeholder="Price">
+    <input id="stock" type="number" placeholder="Stock">
+    <input id="category" placeholder="Category">
+    <textarea id="description" placeholder="Description"></textarea>
+
+    <input type="file" id="image" onchange="previewImage()">
+    <img id="preview" style="width:80px;margin-top:10px">
+
+    <br><br>
+    <button onclick="saveProduct()">Save</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/products.js"></script>
+</body>
+</html>

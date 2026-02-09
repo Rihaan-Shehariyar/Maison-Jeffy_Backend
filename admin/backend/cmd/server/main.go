@@ -55,6 +55,7 @@ func main() {
 	// Static files
 	r.Static("/uploads", "./uploads")
 
+
 	log.Println("ADMIN SERVER RUNNING ON :8080")
 	r.Run(":8080")
 }

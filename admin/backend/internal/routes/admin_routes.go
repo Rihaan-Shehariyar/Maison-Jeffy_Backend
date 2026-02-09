@@ -19,4 +19,8 @@ func AdminRoutes(r *gin.Engine) {
 	admin.GET("/products", handlers.GetAllProducts)
 	admin.DELETE("/products/:id", handlers.DeleteProduct)
 
+	admin.GET("/users", handlers.GetAllUsers)
+	admin.PUT("/users/:id/block", handlers.BlockUser)
+	admin.GET("/orders", handlers.GetAllOrders)
+
 }

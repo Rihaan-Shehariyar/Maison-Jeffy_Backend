@@ -1,0 +1,12 @@
+fetch("http://localhost:8080/admin/orders",{headers:{Authorization:localStorage.adminToken}})
+.then(r=>r.json())
+.then(orders=>{
+  orders.forEach(o=>{
+    orderTable.innerHTML+=`
+      <tr>
+        <td>#${o.id}</td>
+        <td>${o.total_amount}</td>
+        <td>${o.status}</td>
+      </tr>`;
+  });
+});

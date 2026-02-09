@@ -84,6 +84,32 @@ func CreateProduct(c *gin.Context) {
 
 }
 
+
+func UpdateProduct(c *gin.Context){
+
+
+ id := c.Param("id")
+
+ var product entitys.Product
+
+if err:= database.DB.First(&product,id).Error;err!=nil{
+ response.BadRequest(c,"not found")
+ return
+}
+
+
+product.Name = c.PostForm("name")
+	product.Price, _ = strconv.ParseFloat(c.PostForm("price"), 64)
+	product.Stock, _ = strconv.Atoi(c.PostForm("stock"))
+	product.Category = c.PostForm("category")
+	product.Description = c.PostForm("description")
+
+	database.DB.Save(&product)
+	c.JSON(200, product)
+ 
+
+}
+
 func DeleteProduct(c *gin.Context){
 
  database.DB.Delete(&entitys.Product{},c.Param("id"))

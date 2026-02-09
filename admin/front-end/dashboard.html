@@ -1,37 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+<link rel="stylesheet" href="css/style.css">
 
 <div class="layout">
+  <div id="sidebar"></div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>JeffyCart</h2>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="product.html">Products</a>
-    <a href="users.html">Users</a>
-    <a href="orders.html">Orders</a>
-    <button onclick="logout()">Logout</button>
-  </aside>
-
-  <!-- MAIN -->
   <main class="main">
-    <header class="header">Dashboard</header>
+    <div class="header">Dashboard</div>
 
-    <section class="cards">
-      <div class="card">Total Products<br><span id="productsCount">0</span></div>
-      <div class="card">Total Users<br><span id="usersCount">0</span></div>
-      <div class="card">Total Orders<br><span id="ordersCount">0</span></div>
-    </section>
+    <div class="cards">
+      <div class="card">Products<br><span id="pCount">0</span></div>
+      <div class="card">Users<br><span id="uCount">0</span></div>
+      <div class="card">Orders<br><span id="oCount">0</span></div>
+    </div>
   </main>
-
 </div>
 
-<script src="./js/auth.js"></script>
-<script src="./js/dashboard.js"></script>
-</body>
-</html>
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/dashboard.js"></script>
