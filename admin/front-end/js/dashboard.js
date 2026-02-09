@@ -1,17 +1,44 @@
-fetch("http://localhost:8080/admin/products", {
-  headers: { Authorization: localStorage.getItem("adminToken") }
-})
-.then(res => res.json())
-.then(d => document.getElementById("pCount").innerText = d.length);
+const token = localStorage.adminToken;
 
-fetch("http://localhost:8080/admin/users", {
-  headers: { Authorization: localStorage.getItem("adminToken") }
+fetch("http://localhost:8080/admin/dashboard", {
+  headers: { Authorization: token }
 })
-.then(res => res.json())
-.then(d => document.getElementById("uCount").innerText = d.length);
+.then(r => r.json())
+.then(data => {
+  // KPI
+  ordersCount.innerText = data.total_orders;
+  usersCount.innerText = data.total_users;
+  revenueCount.innerText = data.total_revenue.toFixed(2);
 
-fetch("http://localhost:8080/admin/orders", {
-  headers: { Authorization: localStorage.getItem("adminToken") }
-})
-.then(res => res.json())
-.then(d => document.getElementById("oCount").innerText = d.length);
+  // Prepare chart data
+  const labels = data.daily_stats.map(d => d.date);
+  const orderCounts = data.daily_stats.map(d => d.count);
+  const revenueData = data.daily_stats.map(d => d.sum);
+
+  // Orders Chart
+  new Chart(document.getElementById("ordersChart"), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "Orders",
+        data: orderCounts,
+        borderColor: "#2563eb",
+        tension: 0.4
+      }]
+    }
+  });
+
+  // Revenue Chart
+  new Chart(document.getElementById("revenueChart"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Revenue",
+        data: revenueData,
+        backgroundColor: "#16a34a"
+      }]
+    }
+  });
+});

@@ -13,7 +13,7 @@ func GetAllOrders(c *gin.Context) {
 
 	var orders []order_entity.Order
 
-	if err := database.DB.Preload("OrderItems").Find(&orders).Error; err != nil {
+	if err := database.DB.Preload("User").Preload("OrderItems").Find(&orders).Error; err != nil {
 		response.InternalError(c, err.Error())
 		return
 	}
@@ -27,7 +27,7 @@ func UpdateOrderStatus(c *gin.Context) {
 	id := c.Param("id")
 
 	var body struct {
-		Status string `json:""status`
+		Status string `json:"status"`
 	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {

@@ -70,11 +70,11 @@ function saveProduct() {
     formData.append("image", image.files[0]);
   }
 
-  let url = "/admin/products";
+  let url = "http://localhost:8080/admin/products";
   let method = "POST";
 
   if (editingId) {
-    url = `/admin/products/${editingId}`;
+    url = `http://localhost:8080/admin/products/${editingId}`;
     method = "PUT";
   }
 

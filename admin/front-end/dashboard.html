@@ -1,15 +1,37 @@
-<link rel="stylesheet" href="css/style.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
 
 <div class="layout">
   <div id="sidebar"></div>
 
   <main class="main">
-    <div class="header">Dashboard</div>
+    <div class="header">Dashboard Overview</div>
 
+    <!-- KPI CARDS -->
     <div class="cards">
-      <div class="card">Products<br><span id="pCount">0</span></div>
-      <div class="card">Users<br><span id="uCount">0</span></div>
-      <div class="card">Orders<br><span id="oCount">0</span></div>
+      <div class="card">Orders<br><span id="ordersCount">0</span></div>
+      <div class="card">Users<br><span id="usersCount">0</span></div>
+      <div class="card">Revenue<br><span>₹<span id="revenueCount">0</span></span></div>
+    </div>
+
+    <br>
+
+    <!-- CHARTS -->
+    <div class="cards">
+      <div class="card">
+        <h3>Orders (Last 7 Days)</h3>
+        <canvas id="ordersChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Revenue (Last 7 Days)</h3>
+        <canvas id="revenueChart"></canvas>
+      </div>
     </div>
   </main>
 </div>
@@ -17,3 +39,5 @@
 <script src="js/auth.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/dashboard.js"></script>
+</body>
+</html>

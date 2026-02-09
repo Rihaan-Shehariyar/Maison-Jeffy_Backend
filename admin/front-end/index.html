@@ -4,15 +4,19 @@
   <title>Admin Login</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="display:flex;justify-content:center;align-items:center;height:100vh">
+<body>
 
-<div class="card" style="width:320px">
-  <h2>Admin Login</h2>
-  <input id="email" placeholder="Email" style="width:100%;margin:8px 0">
-  <input id="password" type="password" placeholder="Password" style="width:100%;margin:8px 0">
-  <button onclick="login()">Login</button>
-</div>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h2>Admin Login</h2>
 
-<script src="js/login.js"></script>
+      <input id="email" type="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Password">
+
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
 </body>
 </html>
