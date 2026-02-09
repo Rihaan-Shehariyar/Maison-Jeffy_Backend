@@ -1,12 +1,16 @@
 package order_entity
 
-import "time"
+import (
+	"backend/internal/auth/entity"
+	"time"
+)
 
 type Order struct {
-	ID          uint `gorm:"primaryKey"`
-	UserID      uint `gorm:"index"`
-	TotalAmount float64
-	Status      string
-	CreatedAt   time.Time
-	OrderItems  []OrderItem `gorm:"foreignKey:OrderID"`
+	ID          uint        `gorm:"primaryKey" json:"id"`
+	UserID      uint        `gorm:"index" json:"user_id"`
+    User        entity.User `gorm:"foreignKey:UserID" json:"user"`
+	TotalAmount float64     `json:"total_amount"`
+	Status      string      `json:"status"`
+	CreatedAt   time.Time   `json:"created_at"`
+	OrderItems  []OrderItem `gorm:"foreignKey:OrderID" json:"order_items"`
 }

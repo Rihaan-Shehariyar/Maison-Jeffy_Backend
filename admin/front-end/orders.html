@@ -1,13 +1,26 @@
-<link rel="stylesheet" href="css/style.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Orders</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
 <div class="layout">
   <div id="sidebar"></div>
 
   <main class="main">
     <div class="header">Orders</div>
+
     <table>
       <thead>
-        <tr><th>ID</th><th>Total</th><th>Status</th></tr>
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
       </thead>
       <tbody id="orderTable"></tbody>
     </table>
@@ -17,3 +30,5 @@
 <script src="js/auth.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/orders.js"></script>
+</body>
+</html>

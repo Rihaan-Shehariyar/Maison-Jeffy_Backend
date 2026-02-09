@@ -21,6 +21,8 @@ func AdminRoutes(r *gin.Engine) {
 
 	admin.GET("/users", handlers.GetAllUsers)
 	admin.PUT("/users/:id/block", handlers.BlockUser)
+
 	admin.GET("/orders", handlers.GetAllOrders)
+	admin.PUT("/orders/:id/status", handlers.UpdateOrderStatus)
 
 }
