@@ -126,7 +126,7 @@ func main() {
 	routes.OTPRoutes(api, otp_handler)
 
 	protected := api.Group("")
-	protected.Use(middleware.JWTAuth())
+	protected.Use(middleware.JWTAuth(),middleware.CheckBlockedUser(db))
 
 	protected.GET("/profile", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
