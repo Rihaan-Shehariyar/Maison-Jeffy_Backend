@@ -122,11 +122,12 @@ func main() {
 	r := gin.Default()
 
 	api := r.Group("/auth")
+    api.Use(middleware.CheckBlockedUser(db))
 	routes.RegisterRoutes(api, auth_handler, login_handler, refresh_handler, forgot_handler, reset_handler)
 	routes.OTPRoutes(api, otp_handler)
 
 	protected := api.Group("")
-	protected.Use(middleware.JWTAuth(),middleware.CheckBlockedUser(db))
+	protected.Use(middleware.JWTAuth())
 
 	protected.GET("/profile", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
