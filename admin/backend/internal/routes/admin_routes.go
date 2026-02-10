@@ -26,6 +26,6 @@ func AdminRoutes(r *gin.Engine) {
 	admin.GET("/orders", handlers.GetAllOrders)
 	admin.PUT("/orders/:id/status", handlers.UpdateOrderStatus)
 
-	admin.GET("/dashboard", handlers.GetDashboard)
+	admin.GET("/dashboard", handlers.GetDashboardStats)
 
 }

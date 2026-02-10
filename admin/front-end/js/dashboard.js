@@ -1,44 +1,50 @@
-const token = localStorage.adminToken;
+// DASHBOARD DATA
+apiFetch("http://localhost:8080/admin/dashboard")
+  .then(res => res.json())
+  .then(data => {
 
-fetch("http://localhost:8080/admin/dashboard", {
-  headers: { Authorization: token }
-})
-.then(r => r.json())
-.then(data => {
-  // KPI
-  ordersCount.innerText = data.total_orders;
-  usersCount.innerText = data.total_users;
-  revenueCount.innerText = data.total_revenue.toFixed(2);
+    // KPI COUNTS
+    ordersCount.innerText = data.totalOrders;
+    pendingCount.innerText = data.pendingOrders;
+    successCount.innerText = data.successfulOrders;
+    usersCount.innerText = data.totalUsers;
+    revenueCount.innerText = data.totalRevenue.toFixed(2);
 
-  // Prepare chart data
-  const labels = data.daily_stats.map(d => d.date);
-  const orderCounts = data.daily_stats.map(d => d.count);
-  const revenueData = data.daily_stats.map(d => d.sum);
+    // CHARTS
+    renderOrdersChart(data.ordersChart);
+    renderRevenueChart(data.revenueChart);
+  })
+  .catch(err => showToast(err.message, "error"));
 
-  // Orders Chart
+
+// ORDERS CHART
+function renderOrdersChart(chartData) {
   new Chart(document.getElementById("ordersChart"), {
     type: "line",
     data: {
-      labels,
+      labels: chartData.labels,
       datasets: [{
         label: "Orders",
-        data: orderCounts,
+        data: chartData.values,
         borderColor: "#2563eb",
-        tension: 0.4
+        fill: false,
+        tension: 0.3
       }]
     }
   });
+}
 
-  // Revenue Chart
+// REVENUE CHART
+function renderRevenueChart(chartData) {
   new Chart(document.getElementById("revenueChart"), {
     type: "bar",
     data: {
-      labels,
+      labels: chartData.labels,
       datasets: [{
         label: "Revenue",
-        data: revenueData,
+        data: chartData.values,
         backgroundColor: "#16a34a"
       }]
     }
   });
-});
+}

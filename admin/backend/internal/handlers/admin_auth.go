@@ -22,25 +22,21 @@ func AdminLogin(c *gin.Context) {
 
 	}
 
- var admin  models.Admin
+	var admin models.Admin
 
- err:= database.DB.Where("email = ? AND password = ?",req.Email,req.Password).First(&admin).Error
+	err := database.DB.Where("email = ? AND password = ?", req.Email, req.Password).First(&admin).Error
 
- if err!=nil{
-  response.Unauthorized(c,"Invalid Credentials")
-  return
-}
+	if err != nil {
+		response.Unauthorized(c, "Invalid Credentials")
+		return
+	}
 
- token,err:=jwtutils.GenerateAccessToken(admin.ID,admin.Email,"admin")
-if err!=nil{
- response.InternalError(c,"Token Generation Failed")
- return
-}
+	token, err := jwtutils.GenerateAccessToken(admin.ID, admin.Email, "admin")
+	if err != nil {
+		response.InternalError(c, "Token Generation Failed")
+		return
+	}
 
- 
-
-c.JSON(200,gin.H{"token":token})
+	c.JSON(200, gin.H{"token": token})
 
 }
-
-

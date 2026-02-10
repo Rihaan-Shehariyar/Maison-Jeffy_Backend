@@ -1,26 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Toastify -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 </head>
 <body>
 
 <div class="layout">
+  <!-- Sidebar -->
   <div id="sidebar"></div>
 
+  <!-- Main -->
   <main class="main">
-    <div class="header">Dashboard Overview</div>
+    <h1>Dashboard Overview</h1>
 
     <!-- KPI CARDS -->
     <div class="cards">
-      <div class="card">Orders<br><span id="ordersCount">0</span></div>
+      <div class="card">Total Orders<br><span id="ordersCount">0</span></div>
+      <div class="card">Pending Orders<br><span id="pendingCount">0</span></div>
+      <div class="card">Successful Orders<br><span id="successCount">0</span></div>
       <div class="card">Users<br><span id="usersCount">0</span></div>
-      <div class="card">Revenue<br><span>₹<span id="revenueCount">0</span></span></div>
+      <div class="card">Revenue<br>₹<span id="revenueCount">0</span></div>
     </div>
 
     <br>
@@ -31,6 +41,7 @@
         <h3>Orders (Last 7 Days)</h3>
         <canvas id="ordersChart"></canvas>
       </div>
+
       <div class="card">
         <h3>Revenue (Last 7 Days)</h3>
         <canvas id="revenueChart"></canvas>
@@ -39,8 +50,11 @@
   </main>
 </div>
 
+<!-- Scripts -->
 <script src="js/auth.js"></script>
+<script src="js/toastify.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/dashboard.js"></script>
+
 </body>
 </html>
