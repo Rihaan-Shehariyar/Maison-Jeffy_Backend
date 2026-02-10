@@ -4,6 +4,7 @@ import "time"
 
 type Product struct {
 	ID          uint      `json:"id"`
+	SKU         string    `gorm:"uniqueIndex" json:"sku"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Category    string    `json:"category"`
