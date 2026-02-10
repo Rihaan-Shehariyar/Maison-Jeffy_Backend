@@ -26,11 +26,22 @@ func CreateProduct(c *gin.Context) {
 	name := c.PostForm("name")
 	priceStr := c.PostForm("price")
 	stockstr := c.PostForm("stock")
-	description := c.PostForm("category")
+	description := c.PostForm("description")
 	category := c.PostForm("category")
+	sku := c.PostForm("sku")
 
-	if name == "" || priceStr == "" || stockstr == "" {
-		response.BadRequest(c, "Name,price and Stock is required")
+	if name == "" || priceStr == "" || stockstr == "" || sku == "" {
+		response.BadRequest(c, "Name,price,SKU and Stock is required")
+		return
+	}
+
+	var count int64
+	database.DB.Model(&entitys.Product{}).
+		Where("sku = ?", sku).
+		Count(&count)
+
+	if count > 0 {
+		response.BadRequest(c, "SKU already exists")
 		return
 	}
 
@@ -70,6 +81,7 @@ func CreateProduct(c *gin.Context) {
 		Stock:       stock,
 		ImageURL:    imagePath,
 		Category:    category,
+		SKU:         sku,
 	}
 
 	if err := database.DB.Create(&product).Error; err != nil {
@@ -84,38 +96,31 @@ func CreateProduct(c *gin.Context) {
 
 }
 
+func UpdateProduct(c *gin.Context) {
 
-func UpdateProduct(c *gin.Context){
+	id := c.Param("id")
 
+	var product entitys.Product
 
- id := c.Param("id")
+	if err := database.DB.First(&product, id).Error; err != nil {
+		response.BadRequest(c, "not found")
+		return
+	}
 
- var product entitys.Product
-
-if err:= database.DB.First(&product,id).Error;err!=nil{
- response.BadRequest(c,"not found")
- return
-}
-
-
-product.Name = c.PostForm("name")
+	product.Name = c.PostForm("name")
 	product.Price, _ = strconv.ParseFloat(c.PostForm("price"), 64)
 	product.Stock, _ = strconv.Atoi(c.PostForm("stock"))
 	product.Category = c.PostForm("category")
 	product.Description = c.PostForm("description")
-
+	product.SKU = c.PostForm("sku")
 	database.DB.Save(&product)
 	c.JSON(200, product)
- 
 
 }
 
-func DeleteProduct(c *gin.Context){
+func DeleteProduct(c *gin.Context) {
 
- database.DB.Delete(&entitys.Product{},c.Param("id"))
- c.JSON(200,gin.H{"message":"Product Deleted Successfully"})
+	database.DB.Delete(&entitys.Product{}, c.Param("id"))
+	c.JSON(200, gin.H{"message": "Product Deleted Successfully"})
 
 }
-
-
-

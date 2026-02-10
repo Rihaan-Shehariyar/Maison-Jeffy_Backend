@@ -7,13 +7,25 @@ function login() {
       password: password.value
     })
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.token) {
-      localStorage.setItem("adminToken", data.token);
-      window.location.href = "dashboard.html";
-    } else {
-      alert("Invalid credentials");
+  .then(async res => {
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Login failed");
     }
+
+    return data;
+  })
+  .then(data => {
+    localStorage.setItem("adminToken", data.token);
+
+    showToast("Login successful", "success");
+
+    setTimeout(() => {
+      window.location.replace("dashboard.html");
+    }, 800);
+  })
+  .catch(err => {
+    showToast(err.message, "error");
   });
 }
