@@ -15,6 +15,9 @@ func NewResetPasswordHandler(u *usecase.ResetPasswordUsecase) *ResetPasswordHand
 	return &ResetPasswordHandler{usecase: u}
 }
 
+// Reset-Password
+
+
 func (h *ResetPasswordHandler) ResetPassword(c *gin.Context) {
 
 	var req struct {

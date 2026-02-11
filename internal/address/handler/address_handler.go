@@ -9,14 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// Control Layer
 type AddressHandler struct {
 	usecase *address_usecase.AddressUsecase
 }
 
+// Dependency Injection
 func NewAddressHandler(usecase *address_usecase.AddressUsecase) *AddressHandler {
 	return &AddressHandler{usecase}
 }
 
+
+// Create Address
 func (h *AddressHandler) Create(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
@@ -37,6 +42,8 @@ func (h *AddressHandler) Create(c *gin.Context) {
 
 }
 
+// Get Address
+
 func (h *AddressHandler) GetMyAddress(c *gin.Context) {
 
 	userID := c.GetUint("user_id")
@@ -50,6 +57,10 @@ func (h *AddressHandler) GetMyAddress(c *gin.Context) {
 	c.JSON(200, address)
 
 }
+
+
+// Update Address
+
 
 func (h *AddressHandler) Update(c *gin.Context) {
 
@@ -71,6 +82,9 @@ func (h *AddressHandler) Update(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "adress Updated Succesfully"})
 
 }
+
+
+// Delete Address
 
 func (h *AddressHandler) Delete(c *gin.Context) {
 

@@ -15,6 +15,8 @@ func NewForgetPasswordHandler(u *usecase.ForgetPasswordUsecase) *ForgetPasswordH
 	return &ForgetPasswordHandler{usecase: u}
 }
 
+
+// Forgot-Password
 func (h *ForgetPasswordHandler) ForgetPassword(c *gin.Context) {
 
 	var req struct {

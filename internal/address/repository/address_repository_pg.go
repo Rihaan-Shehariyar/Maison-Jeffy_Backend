@@ -10,9 +10,12 @@ type AddressRepositoryPg struct {
 	db *gorm.DB
 }
 
+
 func NewAddressRepositoryPg(db *gorm.DB) AddressRepository {
 	return &AddressRepositoryPg{db}
 }
+
+
 
 func (r *AddressRepositoryPg) Create(address *address_entity.Address) error {
 	return r.db.Create(address).Error

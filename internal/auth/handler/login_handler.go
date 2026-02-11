@@ -15,6 +15,8 @@ func NewLoginHandler(u *usecase.LoginUsecase) *LoginHandler {
 	return &LoginHandler{usecase: u}
 }
 
+//Login
+
 func (h *LoginHandler) Login(c *gin.Context) {
 
 	var req struct {

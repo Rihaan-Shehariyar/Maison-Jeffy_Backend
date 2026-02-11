@@ -17,6 +17,8 @@ func NewAuthHandler(signupUc *usecase.SignupUseCase) *AuthHandler {
 	return &AuthHandler{signupUC: signupUc}
 }
 
+
+// Signup
 func (h *AuthHandler) Signup(c *gin.Context) {
 
 	var req dto.SignupRequest

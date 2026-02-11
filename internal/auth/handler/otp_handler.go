@@ -18,6 +18,8 @@ func NewOTPHandler(u *usecase.OTPUsecase)*OTPHandler{
 
 }
 
+// Send-Otp
+
 func (h *OTPHandler)SendOTP(c *gin.Context){
   
  var req struct{
@@ -39,6 +41,8 @@ c.JSON(200,gin.H{"message":"OTP Sent"})
 
 }
 
+
+// Verify-Otp
 
 func (h *OTPHandler) VerifyOTP(c *gin.Context){
 

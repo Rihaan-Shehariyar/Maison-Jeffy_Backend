@@ -15,6 +15,8 @@ func NewRefreshHandler(u *usecase.RefreshUseCase) *RefreshHandler {
 	return &RefreshHandler{usecase: u}
 }
 
+// Refresh
+
 func (h *RefreshHandler) Refresh(c *gin.Context) {
 	var req struct {
 		RefreshToken string `json:"refresh_token"`
