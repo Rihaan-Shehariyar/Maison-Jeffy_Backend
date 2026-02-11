@@ -22,7 +22,7 @@ func GetDashboardStats(c *gin.Context) {
 	database.DB.Model(&order_entity.Order{}).Count(&totalOrders)
 
 	database.DB.Model(&order_entity.Order{}).
-		Where("status != ?", "pending").
+		Where("status != ?", "delivered").
 		Count(&pendingOrders)
 
 	database.DB.Model(&order_entity.Order{}).
@@ -39,7 +39,7 @@ func GetDashboardStats(c *gin.Context) {
 	// LAST 7 DAYS CHART DATA
 
 	type ChartRow struct {
-		Date  string
+		Date  time.Time
 		Count int64
 		Sum   float64
 	}
@@ -52,7 +52,7 @@ func GetDashboardStats(c *gin.Context) {
 	database.DB.Raw(`
 		SELECT DATE(created_at) as date, COUNT(*) as count
 		FROM orders
-		WHERE created_at >= NOW() - INTERVAL '7 DAY'
+		WHERE created_at >= NOW() - INTERVAL '7 days'
 		GROUP BY DATE(created_at)
 		ORDER BY DATE(created_at)
 	`).Scan(&orderRows)
@@ -80,7 +80,7 @@ func GetDashboardStats(c *gin.Context) {
 
 		var orderCount int64 = 0
 		for _, r := range orderRows {
-			if r.Date == day {
+			if r.Date.Format("2006-01-02") == day {
 				orderCount = r.Count
 			}
 		}
@@ -88,7 +88,7 @@ func GetDashboardStats(c *gin.Context) {
 
 		var revenue float64 = 0
 		for _, r := range revenueRows {
-			if r.Date == day {
+			if r.Date.Format("2006-01-02") == day {
 				revenue = r.Sum
 			}
 		}
