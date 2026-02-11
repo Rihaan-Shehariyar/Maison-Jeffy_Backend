@@ -2,7 +2,10 @@
 <html>
 <head>
   <title>Products</title>
+
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Toastify -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
@@ -10,14 +13,21 @@
 <body>
 
 <div class="layout">
+
+  <!-- SIDEBAR -->
   <div id="sidebar"></div>
 
+  <!-- MAIN -->
   <main class="main">
+
     <div class="header">
       Products
-      <button onclick="openModal()" style="float:right">+ Add Product</button>
+      <button class="btn-primary" onclick="openModal()" style="float:right">
+        + Add Product
+      </button>
     </div>
 
+    <!-- PRODUCT TABLE -->
     <table>
       <thead>
         <tr>
@@ -25,41 +35,81 @@
           <th>Name</th>
           <th>Price</th>
           <th>Stock</th>
-          <th>Sku</th>
+          <th>SKU</th>
           <th>Action</th>
         </tr>
       </thead>
+
       <tbody id="productTable"></tbody>
     </table>
+
   </main>
+
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal">
+
+<!-- ===============================
+     PRODUCT MODAL
+================================ -->
+
+<div id="productModal" class="modal">
+
   <div class="modal-content">
+
     <h3 id="modalTitle">Add Product</h3>
 
-    <input id="productName" placeholder="Name">
-    <input id="price" type="number" placeholder="Price">
-    <input id="stock" type="number" placeholder="Stock">
-    <input id="sku" placeholder="SKU" readonly>
-    <button type="button" onclick="generateSku()">Generate SKU</button>
+    <div class="product-modal">
 
-    <input id="category" placeholder="Category">
-    <textarea id="description" placeholder="Description"></textarea>
+      <!-- PRODUCT NAME -->
+      <input id="productName" placeholder="Product Name">
 
-    <input type="file" id="image" onchange="previewImage()">
-    <img id="preview" style="width:80px;margin-top:10px">
+      <!-- PRICE -->
+      <input id="price" placeholder="Price">
 
-    <br><br>
-    <button onclick="saveProduct()">Save</button>
-    <button onclick="closeModal()">Cancel</button>
+      <!-- STOCK -->
+      <input id="stock" placeholder="Stock">
+
+      <!-- CATEGORY -->
+      <input id="category" placeholder="Category">
+
+      <!-- SKU -->
+      <input id="sku" placeholder="SKU">
+      <button class="btn-primary" onclick="generateSku()">Generate SKU</button>
+
+      <!-- DESCRIPTION -->
+      <textarea id="description" placeholder="Description"></textarea>
+
+      <!-- IMAGE -->
+      <div class="file-row">
+        <input type="file" id="image">
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="preview-row">
+        <img id="preview">
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="saveProduct()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
+      </div>
+
+    </div>
+
   </div>
+
 </div>
+
+
+<!-- ===============================
+     SCRIPTS
+================================ -->
 
 <script src="js/auth.js"></script>
 <script src="js/toastify.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/products.js"></script>
+
 </body>
 </html>

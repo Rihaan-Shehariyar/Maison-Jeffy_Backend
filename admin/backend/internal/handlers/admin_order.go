@@ -57,3 +57,22 @@ func UpdateOrderStatus(c *gin.Context) {
 	})
 
 }
+
+func GetOrderDetails(c *gin.Context){
+
+ id := c.Param("id")
+ 
+ var order order_entity.Order
+
+
+ err:=database.DB.Preload("OrderItems").Preload("OrderItems.Product").First(&order,id).Error
+  
+ if err!=nil{
+ response.BadRequest(c,"Order Not Found")
+ return
+
+}
+
+ c.JSON(200,order)
+
+}

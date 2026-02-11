@@ -33,6 +33,7 @@ func AdminRoutes(r *gin.Engine) {
 
   // Order api
 	admin.GET("/orders", handlers.GetAllOrders)
+    admin.GET("/orders/:id",handlers.GetOrderDetails)
 	admin.PUT("/orders/:id/status", handlers.UpdateOrderStatus)
 
    // Dashboard api

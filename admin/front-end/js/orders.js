@@ -24,9 +24,11 @@ fetch("http://localhost:8080/admin/orders", {
             ${statusOption("cancelled", o.status)}
           </select>
         </td>
-        <td>
-          <button onclick="updateStatus(${o.id})">Save</button>
-        </td>
+       <td>
+  <button onclick="openOrder(${o.id})">View</button>
+  <button onclick="updateStatus(${o.id})">Save</button>
+       </td>
+
       </tr>
     `;
   });
@@ -52,4 +54,37 @@ function updateStatus(id) {
     body: JSON.stringify({ status })
   })
   .then(() => alert("Order status updated"));
+}
+
+function openOrder(id){
+  fetch(`http://localhost:8080/admin/orders/${id}`,{
+    headers:{ Authorization: localStorage.adminToken }
+  })
+  .then(r=>r.json())
+  .then(order=>{
+     showOrderModal(order)
+  })
+}
+
+function showOrderModal(order){
+
+  const list = document.getElementById("orderItemsList")
+  list.innerHTML=""
+
+  order.order_items.forEach(i=>{
+    list.innerHTML += `
+      <div class="order-item">
+         <img src="/${i.product.image_url}" width="50">
+        <span>${i.product.name}</span>
+        <span>Qty: ${i.quantity}</span>
+        <span>₹${i.price}</span>
+      </div>
+    `
+  })
+
+document.getElementById("orderModal").style.display = "block";
+}
+
+function closeOrderModal(){
+  document.getElementById("orderModal").style.display="none"
 }
