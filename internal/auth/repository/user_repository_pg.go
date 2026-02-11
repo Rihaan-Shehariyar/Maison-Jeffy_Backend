@@ -36,6 +36,7 @@ func (r *userRepositoryPg) FindByEmail(email string) (*entity.User, error) {
 		Password:   u.Password,
 		Role:       u.Role,
 		IsVerified: u.IsVerified,
+		IsBlocked:  u.IsBlocked,
 	}, nil
 
 }
