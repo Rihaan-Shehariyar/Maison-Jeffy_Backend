@@ -25,6 +25,8 @@ fetch("http://localhost:8080/admin/users", {
   });
 });
 
+
+// User-Block
 function toggleBlock(id) {
   fetch(`http://localhost:8080/admin/users/${id}/block`, {
     method: "PUT",

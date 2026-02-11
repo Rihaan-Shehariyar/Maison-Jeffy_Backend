@@ -33,7 +33,7 @@ func main() {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
-	// ✅ CORS MUST BE HERE (BEFORE ROUTES)
+	//  CORS MUST BE HERE 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://127.0.0.1:5500",

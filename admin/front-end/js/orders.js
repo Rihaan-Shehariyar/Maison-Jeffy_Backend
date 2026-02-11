@@ -32,6 +32,8 @@ fetch("http://localhost:8080/admin/orders", {
   });
 });
 
+
+// Status Updation
 function statusOption(value, current) {
   return `<option value="${value}" ${value === current ? "selected" : ""}>
             ${value.toUpperCase()}

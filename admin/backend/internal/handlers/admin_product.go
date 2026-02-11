@@ -13,6 +13,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Get Products
+
 func GetAllProducts(c *gin.Context) {
 
 	var products []entitys.Product
@@ -20,6 +22,9 @@ func GetAllProducts(c *gin.Context) {
 	c.JSON(200, products)
 
 }
+
+
+// Create Products
 
 func CreateProduct(c *gin.Context) {
 
@@ -96,6 +101,8 @@ func CreateProduct(c *gin.Context) {
 
 }
 
+// Update Products
+
 func UpdateProduct(c *gin.Context) {
 
 	id := c.Param("id")
@@ -117,6 +124,8 @@ func UpdateProduct(c *gin.Context) {
 	c.JSON(200, product)
 
 }
+
+// Delete Products
 
 func DeleteProduct(c *gin.Context) {
 

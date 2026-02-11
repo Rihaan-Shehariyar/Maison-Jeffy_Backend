@@ -1,6 +1,9 @@
 let editingId = null;
 let productsCache = [];
 
+
+// product Fetching
+
 apiFetch("http://localhost:8080/admin/products")
   .then(r => r.json())
   .then(products => {
@@ -24,6 +27,8 @@ apiFetch("http://localhost:8080/admin/products")
   })
   .catch(err => showToast(err.message, "error"));
 
+// Product Editing
+
 function editProductById(id) {
   const p = productsCache.find(x => x.id === id);
   if (!p) return;
@@ -42,6 +47,9 @@ function editProductById(id) {
   modal.style.display = "block";
 }
 
+
+// Product Deletion
+
 function deleteProduct(id) {
   if (!confirm("Delete product?")) return;
 
@@ -54,6 +62,9 @@ function deleteProduct(id) {
     })
     .catch(err => showToast(err.message, "error"));
 }
+
+
+// Sku auto-generate
 
 function generateSku() {
   const name = productName.value;

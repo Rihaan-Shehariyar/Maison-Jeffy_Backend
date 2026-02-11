@@ -10,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func Connect() {
+func Connect() {	
 
 	dsn := os.Getenv("POSTGRES_DSN")
 

@@ -9,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+
+// All Orders
+
 func GetAllOrders(c *gin.Context) {
 
 	var orders []order_entity.Order
@@ -21,6 +25,8 @@ func GetAllOrders(c *gin.Context) {
 	c.JSON(200, orders)
 
 }
+
+//Update Order Status
 
 func UpdateOrderStatus(c *gin.Context) {
 

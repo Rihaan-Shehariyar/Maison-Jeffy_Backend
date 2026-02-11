@@ -1,12 +1,15 @@
 if (!localStorage.getItem("adminToken")) {
-  window.location.href = "/index.html";
+  window.location.href = "index.html";
 }
+
 
 function logout() {
   localStorage.removeItem("adminToken");
   window.location.href = "index.html";
 }
 
+
+// session expiration
 function apiFetch(url, options = {}) {
   return fetch(url, {
     ...options,
@@ -21,7 +24,7 @@ function apiFetch(url, options = {}) {
       showToast("Session expired. Please login again.", "error");
 
       setTimeout(() => {
-        window.location.replace("/index.html");
+        window.location.replace("index.html");
       }, 1500);
 
       throw new Error("Unauthorized");

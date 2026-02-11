@@ -1,4 +1,5 @@
 // DASHBOARD DATA
+
 apiFetch("http://localhost:8080/admin/dashboard")
   .then(res => res.json())
   .then(data => {
@@ -18,6 +19,7 @@ apiFetch("http://localhost:8080/admin/dashboard")
 
 
 // ORDERS CHART
+
 function renderOrdersChart(chartData) {
   new Chart(document.getElementById("ordersChart"), {
     type: "line",
