@@ -82,9 +82,8 @@ function closeModal() {
 }
 
 
-/* ==============================
-   RESET FORM
-============================== */
+  //  RESET FORM
+
 
 function resetForm(){
 
