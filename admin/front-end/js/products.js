@@ -12,7 +12,7 @@ const modalTitle = document.getElementById("modalTitle");
 
 const productTable = document.getElementById("productTable");
 
-const productName = document.getElementById("productName");
+const productName = document.getElementById("productName"); 
 const price = document.getElementById("price");
 const stock = document.getElementById("stock");
 const category = document.getElementById("category");

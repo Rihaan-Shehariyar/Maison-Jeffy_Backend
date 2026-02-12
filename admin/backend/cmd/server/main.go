@@ -16,7 +16,7 @@ import (
 
 func main() {
 
-	// Load env
+	//  env
 	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal("Error loading .env file")
 	}
@@ -33,7 +33,7 @@ func main() {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
-	//  CORS MUST BE HERE 
+	//  CORS 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://127.0.0.1:5500",
@@ -49,7 +49,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// Routes AFTER CORS
+	// Routes 
 	routes.AdminRoutes(r)
 
 	// Static files
