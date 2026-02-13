@@ -23,7 +23,6 @@ func GetAllProducts(c *gin.Context) {
 
 }
 
-
 // Create Products
 
 func CreateProduct(c *gin.Context) {
