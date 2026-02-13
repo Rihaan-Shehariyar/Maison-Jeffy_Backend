@@ -25,6 +25,7 @@ func main() {
 	database.Connect()
 	database.DB.AutoMigrate(
 		&entity.User{},
+
 		&entitys.Product{},
 	)
 	database.SeedAdmin()
