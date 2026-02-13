@@ -1,17 +1,21 @@
 package database
 
-import "backend/admin/backend/internal/models"
+import (
+	"backend/internal/auth/entity"
+     
+)
 
 func SeedAdmin() {
 
 	var count int64
 
-	DB.Model(&models.Admin{}).Count(&count)
+	DB.Model(&entity.User{}).Count(&count)
 
 	if count == 0 {
-		DB.Create(&models.Admin{
+		DB.Create(&entity.User{
 			Email:    "admin@gmail.com",
 			Password: "Admin@123",
+            Role: "admin",
             
 		})
 	}

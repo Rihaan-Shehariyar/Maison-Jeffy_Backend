@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"backend/admin/backend/internal/database"
-	"backend/admin/backend/internal/models"
 	"backend/admin/backend/internal/routes"
+	"backend/internal/auth/entity"
 	entitys "backend/internal/product/entity"
 
 	"github.com/gin-contrib/cors"
@@ -24,7 +24,7 @@ func main() {
 	// DB
 	database.Connect()
 	database.DB.AutoMigrate(
-		&models.Admin{},
+		&entity.User{},
 		&entitys.Product{},
 	)
 	database.SeedAdmin()

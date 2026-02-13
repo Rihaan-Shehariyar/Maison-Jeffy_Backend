@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"backend/admin/backend/internal/database"
-	"backend/admin/backend/internal/models"
+	"backend/internal/auth/entity"
 	jwtutils "backend/pkg/jwt_utils"
 	"backend/pkg/response"
 
@@ -22,9 +22,9 @@ func AdminLogin(c *gin.Context) {
 
 	}
 
-	var admin models.Admin
+	var admin entity.User
 
-	err := database.DB.Where("email = ? AND password = ?", req.Email, req.Password).First(&admin).Error
+	err := database.DB.Where("email = ? AND password = ? And role = admin", req.Email, req.Password).First(&admin).Error
 
 	if err != nil {
 		response.Unauthorized(c, "Invalid Credentials")
